@@ -1,0 +1,208 @@
+{% extends "GestionPfeBundle:Default:indexEntreprise.html.twig" %}
+
+ {% block body %}
+     <script src="{{ asset('Admin/assets/js/jquery.min.js')}}"></script>
+     <script src="{{ asset('Admin/assets/js/bootstrap.min.js')}}"></script>
+
+
+
+
+
+     <script>
+
+         function deletetech(idTech) {
+
+
+             obj = new Object();
+             obj["id"] = idTech ;
+             $.ajax({
+                 type: "POST",
+                 url: "{{ path('delete_tech') }}",
+                 data: obj,
+                 dataType: "json",
+                 success: function (response) {
+
+                 }
+
+
+             });
+             $('#'+idTech+'').remove();
+
+         }
+
+
+
+     </script>
+
+     <div class="row" >
+         <div class="col-md-12 col-sm-12">
+             <div class="card card-box">
+<div class="row">
+         <div class="col-lg-5 p-t-20" style="margin-left: 50px">
+             <div class = "mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+                 <input class = "mdl-textfield__input" type = "text" value="{{ offre.titre }}" id = "titre">
+                 <label class = "mdl-textfield__label" >Titre Du stage</label>
+             </div>
+         </div>
+
+
+
+
+         <div class="col-lg-5 p-t-20" style="margin-left: 50px">
+             <div class = "mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+                 <input class = "mdl-textfield__input" type = "number" value="{{ offre.duree }}" id = "duree">
+                 <label class = "mdl-textfield__label">Duree du stage</label>
+             </div>
+         </div>
+</div>
+
+
+<div class="row">
+         <div class="col-lg-5 p-t-20" style="margin-left: 50px">
+             <div class = "mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+                 <input class = "mdl-textfield__input" type = "number" value="{{ offre.nbrDemandes }}" id = "nbrDemandes">
+                 <label class = "mdl-textfield__label">Nombre d'étudiant requis</label>
+             </div>
+         </div>
+
+         {% set i = 0 %}
+         {% for tech in technologies %}
+             {% set i=i+1 %}
+             <div id="{{ tech.id }}" class="col-lg-5 p-t-20" style="margin-left: 50px">
+                 <div class = "mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+                     <input id="{{ i }}" class = "mdl-textfield__input" required type = "text" value="{{ tech.tech }}">
+                     <label for="sample2" class="pull-right margin-0">
+                         <a href="#" title="Delete" onclick="deletetech({{ tech.id }})">
+                             <span class="fa fa-trash-o"></span>
+                         </a>
+                     </label>
+                     <label class = "mdl-textfield__label">Technologie N°{{ i }}</label>
+                 </div>
+             </div>
+
+
+         {% endfor %}
+</div>
+         <div class="row"   id="education_fields">
+
+         </div>
+         <div class="col-lg-5 p-t-20" style="margin-left: 50px">
+             <div class = "mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+                 <label for="sample2" class="pull-left margin-0">
+                     <a class="btn btn-success" title="Ajouter nouvelle technologie" onclick="education_fields();">
+                         <span class="fa fa-plus"></span>
+                     </a>
+                 </label>
+             </div>
+         </div>
+
+         <div class="col-lg-12 p-t-20">
+             <div class = "mdl-textfield mdl-js-textfield txt-full-width">
+						                     <textarea class = "mdl-textfield__input" rows =  "4"
+                                                       id = "Description" >{{ offre.description }}</textarea>
+                 <label class = "mdl-textfield__label" for = "text7">Stage Details</label>
+             </div>
+         </div>
+
+         <div class="col-lg-12 p-t-20 text-center">
+             <input type="button" onclick="editOffre()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink" id="btn_Edit" value="Edit Offre">
+             <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default">Cancel</button>
+
+         </div>
+         </div>
+     </div>
+     </div>
+
+
+<input type="hidden" id="idOffre" value="{{offre.id}}">
+     <!-- bootstrap -->
+
+     <!-- Common js-->
+     <script >
+
+         var id={{ i }};
+         var room = 1;
+         var i=1;
+         function education_fields() {
+             id++;
+             room++;
+             var objTo = document.getElementById('education_fields');
+             var divtest = document.createElement("div");
+             divtest.setAttribute("class", "col-lg-5 p-t-20 removeclass"+room );
+             divtest.setAttribute("style", "margin-left: 50px" );
+             var rdiv = 'removeclass'+room;
+             divtest.innerHTML =
+                 '<div class = "mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">' +
+                 '<input class = "mdl-textfield__input" placeholder="Technologies *" type="text" id="'+ id + '" name="'+ id + '" >' +
+                 '<label class="mdl-textfield__label"> '+'</label>'+
+                 '<button class="pull-right margin-0  btn btn-danger" title="supprimer ce champ" onclick="remove_education_fields('+ room + ');">' +
+                 '<span class="fa fa-minus"></span>' +
+                 '</button>' +
+                 '</div>';
+             objTo.appendChild(divtest);
+         }
+         function remove_education_fields(rid) {
+             $('.removeclass'+rid).remove();
+
+         }
+
+
+     </script>
+
+     <script>
+
+         function editOffre() {
+             if( $('#titre').val()=="" ||
+                 $('#duree').val()==null ||
+                 $('#nbrDemandes').val()==null||
+                 $('#Description').val()=="")
+
+             {
+                 alert("Tous les champs sont obligatoirs !");
+                 return false;
+             }
+             for (i = 1; i <=id; i++)
+             {
+                 if( $('#'+i+'').val()=="")
+                 {
+                     alert("Tous les champs sont obligatoirs !");
+                     return false;
+                 }
+             }
+
+
+         //    $("#btn_add_offre").attr('disabled','disabled');
+
+             objj = new Object();
+             objj["titre"] = $('#titre').val();
+             objj["Description"] = $('#Description').val();
+             objj["duree"] = $('#duree').val();
+             objj["nbrDemandes"] = $('#nbrDemandes').val();
+             objj["idOffre"] = $('#idOffre').val();
+             for (i = 1; i <=id; i++)
+             {
+                 objj[i]=$('#'+i+'').val();
+             }
+             objj["max"]=id;
+
+             $.ajax({
+                 type: "POST",
+                 url: "{{ path('edit_offre_entreprise',{'id':offre.id}) }}",
+                 data: objj,
+                 dataType: "json",
+                 success: function (response) {
+
+                 }
+
+             });
+             alert("offre modifié avec succés");
+           location.href = "{{ path('afficher_offre_entreprise') }}";
+
+         }
+
+
+     </script>
+
+     <!-- Material -->
+
+ {% endblock body %}

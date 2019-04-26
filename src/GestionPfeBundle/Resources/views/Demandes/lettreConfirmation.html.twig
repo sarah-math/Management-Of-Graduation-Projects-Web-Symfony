@@ -1,0 +1,115 @@
+
+{% extends "GestionPfeBundle:Demandes:pdfscript.html.twig" %}
+
+
+
+
+
+
+
+{% block body %}
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+            <div class="row">
+                <div class="receipt-header">
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="receipt-left">
+                            <img class="img-responsive" alt="iamgurdeeposahan" src="{{ 'http://localhost/gestionpfe/web/uploads/user/'~etudiant.image|e }}" style="width: 71px; border-radius: 43px;">
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                        <div class="receipt-right">
+                            <h5>{{ entreprise.nom }}</h5>
+                            <p>{{ entreprise.numeroTel }} <i class="fa fa-phone"></i></p>
+                            <p>{{ entreprise.email }} <i class="fa fa-envelope-o"></i></p>
+                            <p>{{ entreprise.rue }},{{ entreprise.ville }},Tunisie <i class="fa fa-location-arrow"></i></p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="receipt-header receipt-header-mid">
+                    <div class="col-xs-8 col-sm-8 col-md-8 text-left">
+                        <div class="receipt-right">
+                            <p>{{ etudiant.nom }} {{ etudiant.prenom }}</p> <small>  |   matricule Demande : {{ demande.id }}</small>
+                            <p>+216 {{ etudiant.numeroTel }} <i class="fa fa-phone"></i></p>
+                            <p>{{ etudiant.email }} <i class="fa fa-envelope-o"></i></p>
+                            <p>{{ entreprise.ville }} <i class="fa fa-location-arrow"></i></p>
+                            <p>{{ entreprise.rue }} <i class="fa fa-location-arrow"></i></p>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4">
+                        <div class="receipt-left">
+                            <h3>Confirmation</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Details Demande</th>
+                        <th>Etat & Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="col-md-9"> Demande </td>
+                        <td class="col-md-3"><i class="fa fa-inr"></i> {{ demande.dateDemande|date('d/m/Y H:i:s') }} &nbsp;&nbsp; Acceptee</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-9">Entretien </td>
+                        <td class="col-md-3"><i class="fa fa-inr"></i> {{ demande.dateEntretien|date('d/m/Y H:i:s') }} &nbsp;&nbsp; Acceptee</td>
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="text-right"><h2><strong>Resultat </strong></h2></td>
+                        <td class="text-left text-danger"><h2><strong><i class="fa fa-inr"></i> Admis(e)</strong></h2></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="receipt-header receipt-header-mid receipt-footer">
+                    <div class="col-xs-8 col-sm-8 col-md-8 text-left">
+                        <div class="receipt-right">
+                            <p><b>Date :</b> {{ date|date('Y/m/d H:i:s') }}</p>
+                            <h5 style="color: rgb(140, 140, 140);">Merci pour la qualite de vos etudiants !</h5>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4">
+                        <div class="receipt-left">
+                            <h1 style="padding-bottom: 10px">Signature</h1>
+
+                        </div>
+                        <div class="receipt-left" style="float: right;">
+                            <img src="data:image/png;base64,
+                            {{ barcode({code: '*nom :'~entreprise.nom~'*email :'~entreprise.email~
+                                '*nomEtudiant :'~etudiant.nom~'*PrenomEtudiant :'~etudiant.prenom~'*EmailEtudiant :'~etudiant.email~'*Tel:'~etudiant.numeroTel ,
+                                type: 'qrcode', format: 'png', width: 3, height: 3, color: [0, 0, 0]}) }}" />
+                        </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
+
+

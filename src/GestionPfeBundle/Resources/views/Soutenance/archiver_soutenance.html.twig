@@ -1,0 +1,508 @@
+{% extends "GestionPfeBundle:Default:indexAdmin.html.twig" %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tabbable-line">
+                <ul class="nav customtab nav-tabs" role="tablist">
+                    <li class="nav-item"><a href="#tab1" class="nav-link active"  data-toggle="tab" >List View</a></li>
+                    <li class="nav-item"><a href="#tab2" class="nav-link" data-toggle="tab">Grid View</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active fontawesome-demo" id="tab1">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-box">
+                                    <div class="card-head">
+                                        <header>All Students List</header>
+                                        <div class="tools">
+                                            <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
+                                            <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
+                                            <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
+                                        </div>
+                                    </div>
+                                    <div class="card-body ">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6 col-6">
+                                                <div class="btn-group">
+                                                    <a href="add_professor.html" id="addRow" class="btn btn-info">
+                                                        Add New <i class="fa fa-plus"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-6">
+                                                <div class="btn-group pull-right">
+                                                    <a class="btn deepPink-bgcolor  btn-outline dropdown-toggle" data-toggle="dropdown">Tools
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </a>
+                                                    <ul class="dropdown-menu pull-right">
+                                                        <li>
+                                                            <a href="javascript:;">
+                                                                <i class="fa fa-print"></i> Print </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:;">
+                                                                <i class="fa fa-file-pdf-o"></i> Save as PDF </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:;">
+                                                                <i class="fa fa-file-excel-o"></i> Export to Excel </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="table-scrollable">
+                                            <table class="table table-striped table-bordered table-hover table-checkable order-column valign-middle" id="example4">
+                                                <thead>
+                                                <tr>
+
+                                                    <th> No</th>
+                                                    <th> Nom Etudiant </th>
+                                                    <th> Prenom Etudiant  </th>
+                                                    <th> Email </th>
+                                                    <th> Encadrant </th>
+                                                    <th> Date </th>
+                                                    <th> Salle </th>
+                                                    <th> Action </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% set i =0 %}
+                                                {% for soutenance in soutenances %}
+                                                    {% if soutenance.EtatDemandeSoutenance is null and soutenance.type =="commerciale" %}
+
+                                                        <tr class="odd gradeX">
+
+                                                            <td>{% set i=i+1 %} {{ i }} </td>
+                                                            <td>{{ soutenance.idUser.nom }}</td>
+                                                            <td>{{ soutenance.idUser.prenom }}</td>
+                                                            <td> {{ soutenance.idUser.email }}</td>
+                                                            <td>{% for stage in stages %}
+                                                                    {% if stage.idEtudiant == soutenance.idUser %}
+                                                                        <input hidden id="{{ i }}" value="{{ stage.idEncadrant.id }}">
+                                                                        {{ stage.idEncadrant.nom }}
+                                                                        {{ stage.idEncadrant.prenom }}
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </td>
+                                                            <td>{{ soutenance.dateSoutenanceCommercial | date }} </td>
+                                                            <td>{{ soutenance.salle}} </td>
+
+                                                            <td>
+                                                                <a onclick="jurie({{ soutenance.id }},{{ i }});" class="btn btn-success btn-xs">
+                                                                    <i class="fa fa-pencil"></i>
+                                                                </a>
+
+                                                            </td>
+
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab2">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card card-box">
+                                    <div class="card-body no-padding ">
+                                        <div class="doctor-profile">
+                                            <img src="../assets/img/std/std10.jpg" class="doctor-pic" alt="">
+                                            <div class="profile-usertitle">
+                                                <div class="doctor-name">Pooja Patel </div>
+                                                <div class="name-center"> Science </div>
+                                            </div>
+                                            <p>A-103, shyam gokul flats, Mahatma Road <br />Mumbai</p>
+                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
+                                            <div class="profile-userbuttons">
+                                                <a href="professor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-box">
+                                    <div class="card-body no-padding ">
+                                        <div class="doctor-profile">
+                                            <img src="../assets/img/std/std1.jpg" class="doctor-pic" alt="">
+                                            <div class="profile-usertitle">
+                                                <div class="doctor-name">Rajesh </div>
+                                                <div class="name-center"> Mathematics </div>
+                                            </div>
+                                            <p>45, Krishna Tower, Near Bus Stop, Satellite, <br />Mumbai</p>
+                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
+                                            <div class="profile-userbuttons">
+                                                <a href="professor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-box">
+                                    <div class="card-body no-padding ">
+                                        <div class="doctor-profile">
+                                            <img src="../assets/img/std/std2.jpg" class="doctor-pic" alt="">
+                                            <div class="profile-usertitle">
+                                                <div class="doctor-name">Sarah Smith </div>
+                                                <div class="name-center"> Commerce </div>
+                                            </div>
+                                            <p>456, Estern evenue, Courtage area, <br />New York</p>
+                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
+                                            <div class="profile-userbuttons">
+                                                <a href="professor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card card-box">
+                                    <div class="card-body no-padding ">
+                                        <div class="doctor-profile">
+                                            <img src="../assets/img/std/std3.jpg" class="doctor-pic" alt="">
+                                            <div class="profile-usertitle">
+                                                <div class="doctor-name">John Deo </div>
+                                                <div class="name-center"> Arts </div>
+                                            </div>
+                                            <p>A-103, shyam gokul flats, Mahatma Road <br />Mumbai</p>
+                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
+                                            <div class="profile-userbuttons">
+                                                <a href="professor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-box">
+                                    <div class="card-body no-padding ">
+                                        <div class="doctor-profile">
+                                            <img src="../assets/img/std/std4.jpg" class="doctor-pic" alt="">
+                                            <div class="profile-usertitle">
+                                                <div class="doctor-name">Jay Soni </div>
+                                                <div class="name-center"> M.B.A. </div>
+                                            </div>
+                                            <p>45, Krishna Tower, Near Bus Stop, Satellite, <br />Mumbai</p>
+                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
+                                            <div class="profile-userbuttons">
+                                                <a href="professor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-box">
+                                    <div class="card-body no-padding ">
+                                        <div class="doctor-profile">
+                                            <img src="../assets/img/std/std5.jpg" class="doctor-pic" alt="">
+                                            <div class="profile-usertitle">
+                                                <div class="doctor-name">Jacob Ryan </div>
+                                                <div class="name-center"> Urology </div>
+                                            </div>
+                                            <p>456, Estern evenue, Courtage area, <br />New York</p>
+                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
+                                            <div class="profile-userbuttons">
+                                                <a href="professor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card card-box">
+                                    <div class="card-body no-padding ">
+                                        <div class="doctor-profile">
+                                            <img src="../assets/img/std/std6.jpg" class="doctor-pic" alt="">
+                                            <div class="profile-usertitle">
+                                                <div class="doctor-name">Megha Trivedi </div>
+                                                <div class="name-center"> Electrical </div>
+                                            </div>
+                                            <p>A-103, shyam gokul flats, Mahatma Road <br />Mumbai</p>
+                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
+                                            <div class="profile-userbuttons">
+                                                <a href="professor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-box">
+                                    <div class="card-body no-padding ">
+                                        <div class="doctor-profile">
+                                            <img src="../assets/img/std/std1.jpg" class="doctor-pic" alt="">
+                                            <div class="profile-usertitle">
+                                                <div class="doctor-name">Rajesh </div>
+                                                <div class="name-center"> Mathematics </div>
+                                            </div>
+                                            <p>45, Krishna Tower, Near Bus Stop, Satellite, <br />Mumbai</p>
+                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
+                                            <div class="profile-userbuttons">
+                                                <a href="professor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-box">
+                                    <div class="card-body no-padding ">
+                                        <div class="doctor-profile">
+                                            <img src="../assets/img/std/std2.jpg" class="doctor-pic" alt="">
+                                            <div class="profile-usertitle">
+                                                <div class="doctor-name">Sarah Smith </div>
+                                                <div class="name-center"> Commerce </div>
+                                            </div>
+                                            <p>456, Estern evenue, Courtage area, <br />New York</p>
+                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
+                                            <div class="profile-userbuttons">
+                                                <a href="professor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card card-box">
+                                    <div class="card-body no-padding ">
+                                        <div class="doctor-profile">
+                                            <img src="../assets/img/std/std10.jpg" class="doctor-pic" alt="">
+                                            <div class="profile-usertitle">
+                                                <div class="doctor-name">Pooja Patel </div>
+                                                <div class="name-center"> Science </div>
+                                            </div>
+                                            <p>A-103, shyam gokul flats, Mahatma Road <br />Mumbai</p>
+                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
+                                            <div class="profile-userbuttons">
+                                                <a href="professor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-box">
+                                    <div class="card-body no-padding ">
+                                        <div class="doctor-profile">
+                                            <img src="../assets/img/std/std1.jpg" class="doctor-pic" alt="">
+                                            <div class="profile-usertitle">
+                                                <div class="doctor-name">Rajesh </div>
+                                                <div class="name-center"> Mathematics </div>
+                                            </div>
+                                            <p>45, Krishna Tower, Near Bus Stop, Satellite, <br />Mumbai</p>
+                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
+                                            <div class="profile-userbuttons">
+                                                <a href="professor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-box">
+                                    <div class="card-body no-padding ">
+                                        <div class="doctor-profile">
+                                            <img src="../assets/img/std/std3.jpg" class="doctor-pic" alt="">
+                                            <div class="profile-usertitle">
+                                                <div class="doctor-name">John Deo </div>
+                                                <div class="name-center"> Arts </div>
+                                            </div>
+                                            <p>A-103, shyam gokul flats, Mahatma Road <br />Mumbai</p>
+                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
+                                            <div class="profile-userbuttons">
+                                                <a href="professor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .fade.in {
+            opacity: 1;
+        }
+        .modal-open .modal {
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .fade {
+            opacity: 0;
+            -webkit-transition: opacity .15s linear;
+            -o-transition: opacity .15s linear;
+            transition: opacity .15s linear;
+        }
+        .modal {
+            position: fixed;
+            top: 10%;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1050;
+            display: none;
+            overflow: hidden;
+            -webkit-overflow-scrolling: touch;
+            outline: 0;
+        }
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        #body-modal {
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #444444;
+            background-color: #245269;
+        }
+    </style>
+    <div class="modal" id="modal-display" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div id="body-modal"  class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div  class="modal-header bg-info text-blue">
+                    <h5 class="modal-title" id="exampleModalLabel">Modifer la soutenance commerciale</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="form-control-wrapper">
+                            <label for="exampleInputUsername">Modifer la date de validation commerciale</label>
+                            <input type="text" id="date-fr" value="" placeholder="Date">
+                            <select id="selectElementId" hidden>
+
+
+                            </select>
+                            <label for="exampleInputUsername">Affecter une salle </label>
+                            <select id="salles">
+                                <option value="c01">
+                                    c01
+                                </option>
+                                <option value="c02">
+                                    c02
+                                </option>
+                                <option value="c03">
+                                    c03
+                                </option>
+                                <option value="c04">
+                                    c04
+                                </option>
+                                <option value="c05">
+                                    c05
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-sm-6 text-left">
+                            <button type="button" class="btn btn-primary" onclick="modifierCommerciale();">Enregistrer</button>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closee();">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var idSoutenance=0;
+        var idEncadrant=-1;
+        var  select = document.getElementById('selectElementId');
+        function removeOptions(selectbox)
+        {
+            var i;
+            for(i = selectbox.options.length - 1 ; i >= 0 ; i--)
+            {
+                selectbox.remove(i);
+            }
+        }
+
+        function jurie(id,i) {
+            removeOptions(select);
+
+            $("#modal-display").modal('show');
+            idSoutenance=id;
+            idEncadrant=$("#"+i+"").val();
+            {% for p in profs %}
+            var idP={{ p.id }};
+            var nomP="{{ p.nom }}"+" {{ p.prenom }}";
+            if(idP!=idEncadrant)
+            {
+                var opt = document.createElement('option');
+                opt.value = nomP;
+                opt.innerHTML = nomP;
+                select.appendChild(opt);
+            }
+            {% endfor %}
+
+        }
+        function modifierCommerciale() {
+
+
+
+
+            $('#modal-display-modif').modal('hide');
+            obj = new Object();
+
+            obj['ids'] = idSoutenance;
+
+
+            obj['salle']=$('#salles').find(":selected").val();
+            obj['date']=$('#date-fr').val();
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "{{ path('_modifer_jury') }}",
+                data: obj,
+                dataType: "json",
+                success: function (response) {
+
+                }
+
+
+            });
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+    </script>
+{% endblock %}

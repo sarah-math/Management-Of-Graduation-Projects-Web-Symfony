@@ -1,0 +1,498 @@
+{% extends "GestionPfeBundle:Default:indexEntreprise.html.twig" %}
+{% block title %}
+<title>Liste de Demandes pour </title>
+{% endblock title %}
+{% block body %}
+    <div class="tabbable-line">
+        <ul class="nav customtab nav-tabs" role="tablist">
+            <li class="nav-item"><a href="#tab1" class="nav-link active"  data-toggle="tab" >Voir Liste</a></li>
+            <li class="nav-item"><a href="#tab2" class="nav-link" data-toggle="tab">Voir en Grille</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active fontawesome-demo" id="tab1">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-box">
+                            <div class="card-head">
+                                <header>Demandes des Etudiants</header>
+                                <div class="tools">
+                                    <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
+                                    <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
+                                    <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
+                                </div>
+                            </div>
+                            <div class="card-body ">
+
+                                <div class="table-scrollable">
+                                    <table class="table table-striped table-bordered table-hover table-checkable order-column valign-middle" id="example4">
+                                        <thead>
+                                        <tr>
+                                            <th>Offre</th>
+                                            <th>Candidat</th>
+                                            <th> Université </th>
+                                            <th> Niveau </th>
+                                            <th> Mobile </th>
+                                            <th> Email </th>
+                                            <th>Date Demande</th>
+                                            <th> Etat Demande </th>
+                                            <th> % succés</th>
+                                            <th> Action </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for d in demandes %}
+                                            {% if (d.etatDemande is null) %}
+                                        <tr class="gradeX odd" role="row" id="row{{ d.id }}">
+                                            <td>{{ d.idOffre.titre }}</td>
+                                            <td class="left">
+                                               {{ d.idUser.nom }} {{ d.idUser.prenom }}
+                                            </td>
+                                            <td class="left">ESPRIT TN</td>
+                                            <td class="left">5éme année</td>
+                                            <td><a href="tel:(+216){{ d.idUser.numeroTel }}">
+                                                    (+216){{ d.idUser.numeroTel }}  </a></td>
+                                            <td><a href="mailto:{{ d.idUser.email }}">
+                                                    {{ d.idUser.email }}</a></td>
+                                            <td class="left">{{ d.dateDemande|date('Y/m/d H:i:s') }}</td>
+                                            {% if d.EtatDemande is null %}
+                                            <td class="left"><button data-toggle="button" class="btn btn-youtube" aria-pressed="false"><i class="fa fa-thumbs-down "></i>
+                                                </button></td>
+                                            {% elseif d.etatDemande==1 %}
+                                                <td class="left">Traité</td>
+                                            {% else %}
+                                                <td class="left">Refusé</td>
+                                            {% endif %}
+                                            <td>{% if pourcentages[0][0] is defined %}
+                                                    {% for pourcentage in pourcentages %}
+                                                        {% if pourcentage[0]== d.idOffre.id %}
+                                                            {% if pourcentage[1]>50 %}
+                                                                <button data-toggle="button" class="btn btn-facebook" aria-pressed="false"><i class="fa fa-thumbs-up "></i>
+                                                                    {{ pourcentage[1]|number_format(1, '.', ',') }}
+                                                                </button>
+                                                                {% else %}
+                                                                    <button data-toggle="button" class="btn btn-youtube" aria-pressed="false"><i class="fa fa-thumbs-down "></i>
+                                                                        {{ pourcentage[1]|number_format(1, '.', ',') }}
+                                                                    </button>
+                                                                {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+
+                                                {% endif %}</td>
+
+                                            <td>
+                                                <a  class="btn btn-primary btn-xs">
+                                                    <i class="fa fa-address-card" data-toggle="modal" data-target="#exampleModalLong" onclick="afficherCv({{ d.idUser.id}},{{ d.id }})"></i>
+                                                </a>
+                                                <button class="btn btn-danger btn-xs">
+                                                    <i class="fa fa-trash-o " onclick="annuler({{ d.id }})"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        {% endif %}
+
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="tab2">
+                <div class="row">
+                    {% for d in demandes %}
+                    {% if (d.etatDemande is null) %}
+                    <div class="col-md-4" id="rowa{{ d.id }}">
+                        <div class="card card-box">
+                            <div class="card-body no-padding ">
+                                <div class="doctor-profile">
+                                    <img src="{{ asset('uploads/user/'~d.idUser.image |e ) }}" class="doctor-pic" alt="">
+                                    <div class="profile-usertitle">
+                                        <div class="doctor-name">{{ d.idUser.nom }} {{ d.idUser.prenom }} </div>
+                                        <div class="name-center"> Université :Esprit Tn </div>
+                                        <div class="name-center"> Niveau : 5éme </div>
+
+                                    </div>
+                                    <p>Titre Offre : {{ d.idOffre.titre }} <br />date demande:{{ d.dateDemande|date('Y/m/d H:i:s') }} <br>
+                                        {% if d.etatDemande is null %} Etat Demande: non Traité
+                                        {% elseif d.etatDemande==1 %} Etat Demande: Acceptée
+                                        {% else %} Etat Demande : Refusée</p>
+                                    {% endif %}
+                                    <div><p><i class="fa fa-phone"></i><a href="tel:(+216){{ d.idUser.numeroTel }}">  (+216){{ d.idUser.numeroTel }}</a></p> </div>
+                                    <div class="profile-userbuttons">
+                                        <a  class="btn btn-circle deepPink-bgcolor btn-sm" data-toggle="modal" data-target="#exampleModalLong"  onclick="afficherCv({{ d.idUser.id }},{{ d.id }})" >Voir CV</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -------------------------------------------------------------------------------------------------->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static" style="height: 700px;" >
+        <div class="modal-dialog" role="document"  >
+            <div class="main-container">
+                <div class="modal-header">
+                    <h5 class="highlight" id="exampleModalLongTitle">Resumé Personnel</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="Partial">
+
+
+
+
+                    </div>
+
+
+
+            </div>
+
+        </div>
+        <div style="text-align: center">
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="hide()" id="close">fermer</button>
+            <button type="button" class="btn btn-danger" onclick="annulerDemande()" >Annuler Demande</button>
+            <button type="button" class="btn btn-primary" onclick="f()">Accepter pour Entretien</button>
+
+        </div>
+    </div>
+
+
+    <!-- date Modal------------------------------------------------------------------------------------------------->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog" role="document">
+
+            <div class="modal-content card-box">
+                <div class="modal-header card-box">
+                    <h5 class="modal-title" id="exampleModalLabel">Entretien</h5>
+                    <button type="button" class="close" data-toggle="modal" aria-label="Close" onclick="function again() {
+                    $('#exampleModalLong').modal('show')
+                            }" >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body card-box">
+                    <div class="row">
+
+
+                        <div class="col-sm-12 ">
+                            <div class="card-box">
+
+                                <div class="card-body card-box">
+                                    <div class="col-sm-12">
+                                        <div class="form-control-wrapper">
+                                            <input type="text" id="min-date" class="floating-label mdl-textfield__input" placeholder="Date d'entretien" onchange="ShowAgainModal() " onclick="hideMymodal()">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height txt-full-width">
+                            <input class="mdl-textfield__input" type="text" id="list2" value="" readonly tabIndex="-1" required>
+                            <label for="list2" class="pull-right margin-0" >
+                                <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+                            </label>
+                            <label for="list2" class="mdl-textfield__label">Methode de la Communication avec le candidat</label>
+                            <ul data-mdl-for="list2" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" id="listaa">
+                                <li class="mdl-menu__item" data-val="DE" value="Skype">Skype</li>
+                                <li class="mdl-menu__item" data-val="BY" value="Viber">Viber</li>
+                                <li class="mdl-menu__item" data-val="BY" value="Live">reunion direct</li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="openModal()">Fermer</button>
+                    <button type="button" class="btn btn-primary" onclick="enregisterEntretien()">Enregistrer </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+<!--Scripts------------------------------------------------------------------------------------------------------------------------------->
+
+    <script src="{{ asset('Admin/assets/js/sweetalert.min.js') }}"></script>
+    <script>
+
+       var idc=0;
+       var id=0;
+       var idd=0;
+       var ida=0;
+       var ide=0;
+
+            function hideMymodal() {
+                $('#myModal').modal('hide')
+
+            }
+
+       function ShowAgainModal() {
+
+           $('#myModal').modal('show')
+
+       }
+       function openModal() {
+           $('#myModal').modal('hide')
+           $('#exampleModalLong').modal('show')
+
+       }
+        function f() {
+            $('#myModal').modal('show')
+            $('#exampleModalLong').modal('hide')
+
+        }
+       function afficherCv(id,iddemande) {
+
+           idc=id;
+            idd=iddemande;
+
+
+           $('#exampleModalLong').modal('show');
+           obj = new Object();
+
+           obj['idc']=idc;
+            obj['idd']=idd;
+           $.ajax({
+               type: "POST",
+               url: "{{ path('rechercheajax') }}",
+               data: obj,
+               dataType: "html",
+               success: function (response) {
+                   $('#Partial').html(response);
+               }
+
+
+
+           });
+
+
+
+       }//end langue
+       function annuler(id) {
+
+           id=id;
+
+           swal({
+               title: "Vous etes Sure?",
+               text: "Vous allez annuler la demande de ce candidat!",
+               icon: "warning",
+               buttons: true,
+               dangerMode: true
+           })
+               .then( function (willDelete)
+
+               {
+                   if (willDelete) {
+                       obj = new Object();
+                       obj["id"]=id;
+                       $.ajax({
+                           type: "POST",
+                           url: "{{ path('_supprimer_demande') }}",
+                           data: obj,
+                           dataType: "json",
+                           success: function (response)
+                           {
+
+                           }
+
+
+
+                       });
+
+                       swal("Poof! La demande a été annulée!", {
+                           icon: "success"
+
+                       });
+                       $("#row"+id).remove();
+                       $('#rowa'+id).remove();
+                       $("#header_notification_bar").notify("Demande Refusée",
+                           { position:"bottom left",
+                               // whether to hide the notification on click
+                               clickToHide: true,
+                               // whether to auto-hide the notification
+                               autoHide: true,
+                               // if autoHide, hide after milliseconds
+                               autoHideDelay: 5000,
+                               // show the arrow pointing at the element
+                               arrowShow: true,
+                               // arrow size in pixels
+                               arrowSize: 5,
+                               // position defines the notification position though uses the defaults below
+                               position: '...',
+                               // default positions
+                               elementPosition: 'bottom left',
+                               globalPosition: 'top right',
+                               // default style
+                               style: 'bootstrap',
+                               // default class (string or [string])
+                               className: 'error ',
+                               // show animation
+                               showAnimation: 'slideDown',
+                               // show animation duration
+                               showDuration: 400,
+                               // hide animation
+                               hideAnimation: 'slideUp',
+                               // hide animation duration
+                               hideDuration: 200,
+                               // padding between element and notification
+                               gap: 2}
+                           );
+
+                   } else {
+                       swal("L'annulation de la demande est annulée!");
+                   }
+               });
+
+
+       }//end langue
+
+       function annulerDemande() {
+
+           ida=$('#demande').val();
+           $('#exampleModalLong').modal('hide');
+
+           swal({
+               title: "Vous etes Sure?",
+               text: "Vous allez annuler la demande de ce candidat!",
+               icon: "warning",
+               buttons: true,
+               dangerMode: true
+           })
+               .then( function (willDelete)
+
+               {
+                   if (willDelete) {
+                       obj = new Object();
+                       obj["id"]=ida;
+                       $.ajax({
+                           type: "POST",
+                           url: "{{ path('_supprimer_demande') }}",
+                           data: obj,
+                           dataType: "json",
+                           success: function (response)
+                           {
+
+                           }
+
+
+
+                       });
+
+                       swal("Poof! La demande a été annulée!", {
+                           icon: "success"
+
+                       });
+                       $("#row"+ida).remove();
+                   } else {
+                       swal("L'annulation de la demande est annulée!");
+                   }
+               });
+
+
+       }//end langue
+
+
+       function enregisterEntretien() {
+
+           ide=$('#demande').val();
+
+           $('#myModal').modal('hide');
+
+           swal({
+               title: "Vous etes Sure?",
+               text: "Vous allez annuler la demande de ce candidat!",
+               icon: "warning",
+               buttons: true,
+               dangerMode: true
+           })
+               .then( function (willDelete)
+
+               {
+                   if (willDelete) {
+                       obj = new Object();
+                       obj["id"]=ide;
+                       obj["date"]=$('#min-date').val()
+                       obj["methode"]=$('#list2').val()
+                       $.ajax({
+                           type: "POST",
+                           url: "{{ path('FixerEntretien') }}",
+                           data: obj,
+                           dataType: "json",
+                           success: function (response)
+                           {
+
+                           }
+
+
+
+                       });
+
+                       swal("Poof! La date d'Entretien a été fixer a la date :"+obj["date"]+"avec une methode de communication :"+obj["methode"]+"! ", {
+                           icon: "success"
+
+                       });
+                       $("#row"+ide).remove();
+                       $('#rowa'+ide).remove();
+                       $("#header_notification_bar").notify("Succés! Voir les Acceptés!",
+                           { position:"bottom left",
+                               // whether to hide the notification on click
+                               clickToHide: true,
+                               // whether to auto-hide the notification
+                               autoHide: true,
+                               // if autoHide, hide after milliseconds
+                               autoHideDelay: 5000,
+                               // show the arrow pointing at the element
+                               arrowShow: true,
+                               // arrow size in pixels
+                               arrowSize: 5,
+                               // position defines the notification position though uses the defaults below
+                               position: '...',
+                               // default positions
+                               elementPosition: 'bottom left',
+                               globalPosition: 'top right',
+                               // default style
+                               style: 'bootstrap',
+                               // default class (string or [string])
+                               className: 'success',
+                               // show animation
+                               showAnimation: 'slideDown',
+                               // show animation duration
+                               showDuration: 400,
+                               // hide animation
+                               hideAnimation: 'slideUp',
+                               // hide animation duration
+                               hideDuration: 200,
+                               // padding between element and notification
+                               gap: 2}
+                       );
+
+                   }
+                    else {
+                       swal("L'Operation a été annulée!");
+                   }
+               });
+
+
+       }//end langue
+    </script>
+{% endblock body %}

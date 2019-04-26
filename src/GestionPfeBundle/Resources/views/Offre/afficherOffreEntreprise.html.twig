@@ -1,0 +1,77 @@
+{% extends "GestionPfeBundle:Default:indexEntreprise.html.twig" %}
+
+ {% block body %}
+     {% set i=0 %}
+
+     <div class="row">
+         <div class="col-md-12 col-sm-12">
+             <div class="card  card-box">
+                 <div class="card-head">
+                     <header>Liste de mes offre</header>
+                     <div class="tools">
+                         <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
+                         <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
+                         <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
+                     </div>
+                 </div>
+                 <div class="card-body ">
+                     <div class="table-wrap">
+                         <div class="table-responsive">
+                             <table class="table display product-overview mb-30" id="support_table">
+                                 <thead>
+                                 <tr>
+                                     <th>No</th>
+                                     <th>Titre du stage</th>
+                                     <th>Etat</th>
+                                     <th>nbr etudiants</th>
+                                     <th>Duree</th>
+                                     <th>Technologies</th>
+                                     <th>Description</th>
+                                     <th>Edit</th>
+                                 </tr>
+                                 </thead>
+                                 <tbody>
+     {% for offre in offres %}
+                                 <tr>
+                                     <td>{% set i=i+1 %} {{ i }}</td>
+                                     <td>{{ offre.titre }}</td>
+                                     <td>
+                                         {% if offre.etat == false %} Non validé
+                                         {% else %} Valdié
+                                         {% endif %}
+
+                                     </td>
+                                     <td>{{ offre.nbrDemandes }}</td>
+                                     <td> {{ offre.duree }}</td>
+                                     <td>{% for techs in arrayKeyIsIdOffreAndValueIsArrayOfTechnologies %}
+                                          {% for tech in techs %}
+                                             {% if tech.idOffre is defined %}
+                                             {% if tech.idOffre.id == offre.id %}
+                                                 {{ tech.tech }}<br>
+                                             {% endif %}
+                                             {% endif %}
+                                         {% endfor %}
+                                         {% endfor %}
+                                     </td>
+                                     <td>{{ offre.description|length > 15 ? offre.description|slice(0, 15) ~ '...' : offre.description  }} </td>
+                                     <td>
+                                         <a href="{{ path('edit_offre_entreprise',{'id':offre.id}) }}" class="" data-toggle="tooltip" title="Edit" >
+                                             <i class="fa fa-pencil"></i>
+                                         </a>
+                                         <a href="" class="text-inverse" title="Delete" data-toggle="tooltip">
+                                             <i class="fa fa-trash"></i>
+                                         </a>
+                                     </td>
+                                 </tr>
+     {% endfor %}
+
+                                 </tbody>
+                             </table>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+ {% endblock body %}

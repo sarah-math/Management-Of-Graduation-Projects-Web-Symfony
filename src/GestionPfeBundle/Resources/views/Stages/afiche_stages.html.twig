@@ -1,0 +1,264 @@
+{% extends "GestionPfeBundle:Default:indexAdmin.html.twig" %}
+
+
+
+{% block body %}
+
+
+
+    <script src="{{ asset('Admin/assets/js/sweetalert.min.js') }}"></script>
+    <link rel="stylesheet" href="Admin/assets/js/sweetalert.css" />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tabbable-line">
+                <ul class="nav customtab nav-tabs" role="tablist">
+                    <li class="nav-item"><a href="#tab1" class="nav-link active"  data-toggle="tab" >List View</a></li>
+                    <li class="nav-item"><a href="#tab2" class="nav-link" data-toggle="tab">Calandar View</a></li>
+                </ul>
+
+                <div class="page-content-wrapper">
+                    <div class="page-content">
+                        <div class="page-bar">
+                            <div class="page-title-breadcrumb" >
+                                <div class=" pull-left">
+                                    <div class="state-overview">
+                                        <div class="row">
+
+                                            <center>
+                                                <div class="card card-box">
+                                                    <div class="card-head">
+                                                        <header>La Liste des stages</header>
+                                                        <div class="tools">
+                                                            <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
+                                                            <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
+                                                            <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body ">
+                                                        <div class="table-scrollable">
+                                                            <table id="dataTable" class="display dataTable no-footer" style="width: 100%">
+                                                                <thead>
+                                                                <th># entreprise </th>
+                                                                <th>Nom entreprise</th>
+                                                                <th># Etudiant </th>
+                                                                <th>Nom etudiant</th>
+                                                                <th>Prenom Etudiant</th>
+                                                                <th>Titre stage</th>
+                                                                <th>Date Début</th>
+                                                                <th>Date Fin</th>
+                                                                <th>Affecter encadrant</th>
+                                                                <th></th>
+                                                                </thead>
+
+                                                                {% for s in Stage %}
+                                                                    <tr>
+                                                                        <td>{{ s.identreprise.id }}</td>
+                                                                        <td>{{ s.identreprise.username }}</td>
+                                                                        <td>{{ s.idetudiant.id }}</td>
+                                                                        <td>{{ s.idetudiant.nom }}</td>
+                                                                        <td>{{ s.idetudiant.prenom }}</td>
+                                                                        <td>{{ s.titreStage }}</td>
+                                                                        <td>{{ s.dateDebut|date("d/m/Y") }}</td>
+                                                                        <td>{{ s.dateFin|date("d/m/Y") }}</td>
+                                                                        <td id="t{{ s.id }}">
+                                                                            {% if(s.getIdEncadrant()!=null) %}
+                                                                                <center><input type="button" value="Désaffecter" class="btn btn-danger" onclick="AnnulerEncadrant({{ s.id }})"/></center>
+                                                                            {% else %}
+                                                                                <center><input type="button" value="affecter" class="btn btn-success" onclick="GetEncadrants({{ s.id }})"></center>
+                                                                            {% endif %}
+                                                                        </td>
+
+                                                                    </tr>
+                                                                {% endfor %}
+
+
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </center>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Choisir un Encadrant</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <select class="form-control" id="encadrants">
+                                <option value="0">Encadrants...</option>
+                                {% for e in encadrant %}
+                                    <option value="{{ e.id }}">{{ e.nom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-info" onclick="confirmEncadrant()">Confirmer</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="ModalAnnuler" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Désaffecter Encadrant</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Voulez vous vraiment désaffecter l'encadrant ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" onclick="ConfirmAnnulation()">Confirmer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var idStage=0;
+
+        function GetEncadrants(id) {
+
+            idStage=id;
+            $('#myModal').modal('show');
+
+        }//end GetEncadrants
+
+
+        function confirmEncadrant() {
+
+            obj = new Object();
+            obj["idEncadrant"] = $('#encadrants').find(":selected").val();
+            obj["idStage"] = idStage;
+
+            $.ajax({
+                type: "POST",
+                url: "{{ path('affecterencadrant_avec_ajax') }}",
+                data: obj,
+                dataType: "json",
+                success: function (response) {
+
+                }
+            });
+
+            $('#myModal').modal('hide');
+            sweetAlert("terminé!",'Encadrant affecté avec succés',"success");
+
+            $('#t'+idStage+'').html('<input type="button" value="Désaffecté" class="btn btn-danger" onclick="AnnulerEncadrant('+idStage+')"/>');
+            idStage=0;
+
+        }//end confirmEncadrant
+
+        function AnnulerEncadrant(id) {
+            idStage=id;
+            $('#ModalAnnuler').modal('show');
+        }
+
+        function ConfirmAnnulation() {
+
+            obj = new Object();
+            obj["idStage"] = idStage;
+
+            $.ajax({
+                type: "POST",
+                url: "{{ path('desaffecterencadrant_avec_ajax') }}",
+                data: obj,
+                dataType: "json",
+                success: function (response) {
+
+                }
+            });
+
+            $('#ModalAnnuler').modal('hide');
+            sweetAlert("terminé!",'Encadrant désaffecté avec succés',"success");
+
+            $('#t'+idStage+'').html('<input type="button" value="affecté" class="btn btn-success" onclick="GetEncadrants('+idStage+')">');
+            idStage=0;
+
+
+        }
+
+    </script>
+
+
+
+
+
+    <!-- Large modal -->
+
+
+
+
+
+    <title>Smart University | Bootstrap Responsive Admin Template</title>
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet" type="text/css" />
+    <!-- icons -->
+    <link href="../assets/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!--bootstrap -->
+    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- full calendar -->
+    <link href="../assets/plugins/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css" />
+    <!-- Material Design Lite CSS -->
+    <link rel="stylesheet" href="../assets/plugins/material/material.min.css">
+    <link rel="stylesheet" href="../assets/css/material_style.css">
+    <!-- Theme Styles -->
+    <link href="../assets/css/theme/dark/theme_style.css" rel="stylesheet" id="rt_style_components" type="text/css" />
+    <link href="../assets/css/theme/dark/style.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/plugins.min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/responsive.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/theme/dark/theme-color.css" rel="stylesheet" type="text/css" />
+    <!-- favicon -->
+    <link rel="shortcut icon" href="http://radixtouch.in/smart/source/assets/img/favicon.ico" />
+    <!-- start js include path -->
+    <script src="../assets/plugins/jquery/jquery.min.js" ></script>
+    <script src="../assets/plugins/popper/popper.js" ></script>
+    <script src="../assets/plugins/jquery-blockui/jquery.blockui.min.js" ></script>
+    <script src="../assets/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <script src="../assets/plugins/jquery-ui/jquery-ui.min.js" ></script>
+    <!-- bootstrap -->
+    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js" ></script>
+    <script src="../assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js" ></script>
+    <!-- calendar -->
+    <script src="../assets/plugins/moment/moment.min.js" ></script>
+    <script src="../assets/plugins/fullcalendar/fullcalendar.min.js" ></script>
+    <script src="../assets/js/pages/calendar/calendar.min.js" ></script>
+    <!-- Common js-->
+    <script src="../assets/js/app.js" ></script>
+    <script src="../assets/js/layout.js" ></script>
+    <script src="../assets/js/theme-color.js" ></script>
+    <!-- Material -->
+    <script src="../assets/plugins/material/material.min.js"></script>
+    <!-- end js include path -->
+
+{% endblock %}

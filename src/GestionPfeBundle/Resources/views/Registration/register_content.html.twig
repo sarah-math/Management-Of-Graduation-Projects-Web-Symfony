@@ -1,0 +1,178 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+<div class="page-registration section-padding " style="background-image:url(/Sites/GestionPFE/web/Client/img/backgrounds/registration.jpg) ">
+    <div class="sign-">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="sign-up-area">
+                    <div class="row">
+
+                        <div class="col-sm-7">
+                            <div class="sign-up-form">
+                                <h3>S'inscrire dans notre application</h3>
+                                <div  id="alert" >
+
+                                </div>
+
+                                <!-- Sign up form -->
+                                {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+
+                                    <div class="form-group" id="blockusername">
+                                        {{ form_widget(form.username,{'attr':{'class':'form-control','placeholder':'Username'}}) }}
+                                    </div>
+                                <div class="form-group" id="blockrole">
+                                    {{ form_widget(form.role,{'attr':{'class':'form-control'}}) }}
+                                </div>
+
+                                    <div class="form-group" id="blockemail">
+                                        {{ form_widget(form.email,{'attr':{'class':'form-control','placeholder':'Email address'}}) }}
+                                    </div>
+                                <div class="form-group" id="blocknom">
+                                    {{ form_widget(form.nom,{'attr':{'class':'form-control','placeholder':'votre nom'}}) }}
+
+                                </div>
+                                <div class="form-group" id="blockprenom">
+                                    {{ form_widget(form.prenom,{'attr':{'class':'form-control','placeholder':'votre prenom'}}) }}
+                                </div>
+                                <div class="form-group" id="blockage">
+                                    {{ form_widget(form.age,{'attr':{'class':'form-control','placeholder':'votre age'}}) }}
+
+                                </div>
+
+                                <div class="form-group" id="blocknumerotel">
+                                    {{ form_widget(form.numeroTel,{'attr':{'class':'form-control','placeholder':'numero telephone'}}) }}
+                                </div>
+
+                                <div class="form-group" id="blockville">
+                                    {{ form_widget(form.ville,{'attr':{'class':'form-control','placeholder':'ville'}}) }}
+
+                                </div>
+
+                                <div class="form-group" id="blockcodepostal">
+                                    {{ form_widget(form.codePostal,{'attr':{'class':'form-control','placeholder':'Code Postal'}}) }}
+
+                                </div>
+                                <div class="form-group" id="blockrue">
+                                    {{ form_widget(form.rue,{'attr':{'class':'form-control','placeholder':'Rue'}}) }}
+
+                                </div>
+
+
+                                <div class="form-group">
+                                <span>inserer votre image professionel</span>
+                                    {{ form_widget(form.file) }}
+
+                                </div>
+
+                                <div class="form-group">
+                                        {{ form_widget(form.plainPassword.first,{'attr':{'class':'form-control','placeholder':'password'}}) }}
+
+                                </div>
+                                    <div class="form-group">
+                                        {{ form_widget(form.plainPassword.second,{'attr':{'class':'form-control','placeholder':'Confirm password'}}) }}
+                                    </div>
+
+                                    <div class="form-group" >
+                                        <button id="submit" class="theme-btn hvr-shutter-in-horizontal" value="{{ 'registration.submit'|trans }}" type="submit">s'inscrire</button>
+                                    </div>
+                                {{ form_end(form) }}<!-- // End Sign up form -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+    </div>
+</div>
+    <script src="{{ asset('Client/js/jqueryf.js') }}"></script>
+    <script src="{{ asset('Client/js/sweetalert2.all.min.js') }}"></script>
+    <script  language="javascript">
+        $(document).ready(function(){
+
+            $('#blockage').hide();
+            $('#submit').hide();
+
+
+            $('#fos_user_registration_form_role').on('change', function() {
+
+                if($(this).find(":selected").val()=='false') {
+                    $('#blockage').hide();
+                    $('#submit').hide();
+                    return false;
+                }
+
+                if($(this).find(":selected").val()=='ROLE_ENTREPRISE')
+                {
+                    $('#blockage').hide();
+                    $('#fos_user_registration_form_age').removeAttr('required','required');
+                    $('#blockprenom').hide();
+                    $('#submit').show();
+                    $('#alert').hide();
+                    return false;
+                }
+                if($(this).find(":selected").val()=='ROLE_ETUDIANT'){
+
+                    $('#alert').html('<div class="alert alert-danger "><strong>Attention!</strong> Vos informations seront inclus dans votre Cv!</div>');
+                    $('#blockage').show();
+
+                    $('#submit').show();
+                    $('#fos_user_registration_form_age').attr('required','required');
+
+
+
+                }
+                else
+                {
+                    $('#blockage').show();
+                    $('#fos_user_registration_form_age').attr('required','required');
+                    $('#submit').show();
+                    $('#alert').hide();
+
+                }
+
+
+            });
+            //end tgnbundle_annonce_type_annonce on change
+
+            $('#submit').on('click',function () {
+                $('#fos_user_registration_form_role').on('change',function () {
+                   if($(this).find(":selected").val()=='ROLE_ENTREPRISE'){
+                       swal("Good job!", "nous allons traité votre demande !", "success");
+
+
+                   }
+
+
+                });
+
+            });
+            $('#fos_user_registration_form_email').on('keyup',function (event) {
+                var a=true
+                console.log(event);
+                var email = $('#fos_user_registration_form_email').val();
+                if((($('#fos_user_registration_form_role').find(":selected").val()=='ROLE_ETUDIANT')||(($('#fos_user_registration_form_role').find(":selected").val()=='ROLE_ENSEIGNANT')))){
+                    if (event.keyCode === 48)
+                        {
+                        email =email+"esprit.tn";
+                        $('#fos_user_registration_form_email').val(email);
+                        return false;
+
+
+                    }
+
+                }
+            })
+
+
+
+
+        });//end script
+
+    </script>
+
+{% endblock body %}

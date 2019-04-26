@@ -1,0 +1,282 @@
+{% extends "GestionPfeBundle:Default:indexEntreprise.html.twig" %}
+{% block title %}
+    <title>Liste de Demandes pour </title>
+{% endblock title %}
+{% block body %}
+    <div class="tabbable-line">
+        <ul class="nav customtab nav-tabs" role="tablist">
+            <li class="nav-item"><a href="#tab1" class="nav-link active"  data-toggle="tab" >Voir Liste</a></li>
+            <li class="nav-item"><a href="#tab2" class="nav-link" data-toggle="tab">Voir en Grille</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active fontawesome-demo" id="tab1">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-box">
+                            <div class="card-head">
+                                <header>Demandes des Etudiants</header>
+                                <div class="tools">
+                                    <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
+                                    <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
+                                    <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
+                                </div>
+                            </div>
+                            <div class="card-body ">
+                                <!--                                <div class="row">
+
+                                    <div class="col-md-6 col-sm-6 col-6">
+                                        <div class="btn-group pull-right">
+                                            <a class="btn deepPink-bgcolor  btn-outline dropdown-toggle" data-toggle="dropdown">Outils
+                                                <i class="fa fa-angle-down"></i>
+                                            </a>
+                                            <ul class="dropdown-menu pull-right">
+                                                <li>
+                                                    <a href="javascript:;">
+                                                        <i class="fa fa-print"></i> Print </a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;">
+                                                        <i class="fa fa-file-pdf-o"></i> Save as PDF </a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;">
+                                                        <i class="fa fa-file-excel-o"></i> Export to Excel </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+ -->
+                                <div class="table-scrollable">
+                                    <table class="table table-striped table-bordered table-hover table-checkable order-column valign-middle" id="example4">
+                                        <thead>
+                                        <tr>
+                                            <th>Offre</th>
+                                            <th>Candidat</th>
+                                            <th> Université </th>
+                                            <th> Niveau </th>
+                                            <th> Mobile </th>
+                                            <th> Email </th>
+                                            <th> Date Demande </th>
+                                            <th>Date Entretien</th>
+                                            <th>Communication</th>
+                                            <th> Action </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for d in demandes %}
+                                            {% if (d.etatDemande==1) %}
+                                                <tr class="gradeX odd" role="row" id="row{{ d.id }}">
+                                                    <td>{{ d.idOffre.titre }}</td>
+                                                    <td class="left">
+                                                        {{ d.idUser.nom }} {{ d.idUser.prenom }}
+                                                    </td>
+
+                                                    <td class="left">ESPRIT TN</td>
+                                                    <td class="left">5éme année</td>
+                                                    <td><a href="tel:(+216){{ d.idUser.numeroTel }}">
+                                                            (+216){{ d.idUser.numeroTel }}  </a></td>
+                                                    <td><a href="mailto:{{ d.idUser.email }}">
+                                                            {{ d.idUser.email }}</a></td>
+                                                    <td class="left">{{ d.dateDemande|date('Y/m/d H:i:s') }}</td>
+                                                    <td class="left">{{ d.dateEntretien|date('Y/m/d H:i:s') }}</td>
+                                                    {% if d.MethodeCommunication =='Skype' %}
+                                                    <td class="left"><button data-toggle="button" class="btn btn-skype" aria-pressed="false"><i class="fa fa-skype "></i>
+
+                                                        </button></td>
+                                                        {% elseif d.MethodeCommunication =='Viber' %}
+                                                            <td class="left"><button data-toggle="button" class="btn btn-facebook" aria-pressed="false"><i class="fa fa-video-camera "></i>
+
+                                                                </button></td>
+                                                        {% else %}
+                                                        <td class="left"><button data-toggle="button" class="btn btn-linkedin" aria-pressed="false"><i class="fa fa-phone"></i>
+
+                                                            </button></td>
+                                                    {% endif %}
+                                                    <td class="left">
+                                                        {% if d.etatEntretien is null %}
+                                                        <button class="btn btn-success btn-xs " id="b{{ d.id }}">
+                                                            <i class="fa fa-check-circle-o " onclick="valider({{ d.id }})"></i>
+                                                        </button>
+                                                            <form method="post" action="{{ path('pdfAction') }}">
+                                                                <button id="button{{ d.id }}" class="btn btn-success btn-xs" type="submit" disabled="disabled" >
+                                                                    <i class="fa fa-archive " ></i>
+                                                                    <input name="idDemande" value="{{ d.id }}" hidden>
+                                                                </button>
+                                                            </form>
+                                                        {% elseif d.etatEntretien==1 and d.dateEntretien is not null %}
+                                                        <a class="btn btn-danger btn-xs" id="b{{ d.id }}">
+                                                            <i class="fa fa-trash " onclick="annuler({{ d.id }})">
+
+                                                            </i>
+                                                        </a>
+                                                            <form method="post" action="{{ path('pdfAction') }}">
+                                                                <input name="idDemande" value="{{ d.id }}" hidden>
+                                                                <button id="butpdf{{ d.id }}" class="btn btn-success btn-xs" type="submit" >
+                                                                    <i class="fa fa-archive " ></i>
+                                                                </button>
+                                                            </form>
+                                                            {% else %}
+                                                            <button class="btn btn-danger btn-xs " id="b{{ d.id }}">
+                                                                <i class="fa fa-recycle " onclick="alert()"></i>
+                                                            </button>
+                                                        {% endif %}
+
+
+                                                    </td>
+                                                </tr>
+
+                                            {% endif %}
+
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="tab2">
+                <div class="row">
+                    {% for d in demandes %}
+                    {% if (d.etatDemande==1) and (d.dateEntretien is not null) %}
+                        <div class="col-md-4">
+                            <div class="card card-box">
+                                <div class="card-body no-padding ">
+                                    <div class="doctor-profile">
+                                        <img src="{{ asset('uploads/user/'~d.idUser.image |e ) }}" class="doctor-pic" alt="">
+                                        <div class="profile-usertitle">
+                                            <div class="doctor-name">{{ d.idUser.nom }} {{ d.idUser.prenom }} </div>
+                                            <div class="name-center"> Université :Esprit Tn </div>
+                                            <div class="name-center"> Niveau : 5éme </div>
+
+                                        </div>
+                                        <p>Titre Offre : {{ d.idOffre.titre }} <br />date demande:{{ d.dateDemande|date('Y/m/d') }}</p>
+                                        <div><p><i class="fa fa-phone"></i><a href="tel:(+216){{ d.idUser.numeroTel }}">  (+216){{ d.idUser.numeroTel }}</a></p> </div>
+                                        <div class="profile-userbuttons" id="c{{ d.id }}">
+                                            <a  class="btn btn-circle deepPink-bgcolor btn-sm"  onclick="valider({{ d.id }})" >Valider Entretien</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset('Client/js/sweetalert2.all.min.js') }}"></script>
+
+
+    <script src="{{ asset('Admin/assets/js/sweetalert.min.js') }}"></script>
+    <script>
+
+
+        var id=0;
+
+        function alert() {
+            swal({
+                title: "Information!",
+                text: "Vous avez refuser ce Candidat aprés avoir passer l'entretien!",
+                icon: "warning",
+                button: "Ok"
+            });
+
+        }
+
+               function valider(id) {
+
+            id=id;
+
+            swal({
+                title: "Vous etes Sure?",
+                text: "Vous allez accepter ce candidat pour vous rejoindre a votre offre :)!",
+                icon: "success",
+                buttons: true,
+                dangerMode: true
+            })
+                .then( function (willDelete)
+
+                {
+                    if (willDelete) {
+                        obj = new Object();
+                        obj["id"]=id;
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ path('ValiderEntretien') }}",
+                            data: obj,
+                            dataType: "json",
+                            success: function (response)
+                            {
+
+                            }
+
+
+
+                        });
+
+                        swal("Poof! La validation de l'entretien réussie :) !", {
+                            icon: "success"
+
+                        });
+                        $("#b"+id).replaceWith('<button class="btn btn-danger btn-xs" id="b"'+id+'><i class="fa fa-trash-o " onclick="annuler('+id+')"></i></button>');
+                        $('#c'+id).replaceWith(' <div class="profile-userbuttons" id="c'+id+'"><a  class="btn btn-circle deepPink-bgcolor btn-sm"  onclick="annuler('+id+')" >Dévalider Entretien</a></div>');
+                        $('#button'+id).prop('disabled',false);
+
+                    } else {
+                        swal("La validation de l'entretien a été annulé :( !");
+                    }
+                });
+
+        }//end langue
+        function annuler(id) {
+
+            id=id;
+
+            swal({
+                title: "Vous etes Sure?",
+                text: "Vous allez annuler l'acceptation de ce candidat pour vous rejoindre!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            })
+                .then(function (willDelete) {
+                    if (willDelete) {
+                        obj = new Object();
+                        obj["id"]=id;
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ path('SupprimerEntretien') }}",
+                            data: obj,
+                            dataType: "json",
+                            success: function (response) {
+
+                            }
+
+
+                        });
+
+                        swal("Poof! L'acceptation a été annulée!", {
+                            icon: "success"
+
+                        });
+                        $('#row'+id).remove();
+                        $("#b"+id).replaceWith('<button class="btn btn-success btn-xs " id="b"'+id+'><i class="fa fa-check-circle-o  " onclick="valider('+id+')"></i></button>');
+                        $('#butpdf'+id).prop('disabled',true);
+                        $('#c'+id).replaceWith(' <div class="profile-userbuttons" id="c'+id+'"><a  class="btn btn-circle deepPink-bgcolor btn-sm"  onclick="valider('+id+')" >valider Entretien</a></div>');
+
+                    } else {
+                        swal("L'annulation de l'acceptation est annulée!");
+                    }
+                });
+        }
+
+
+
+
+    </script>
+{% endblock body %}

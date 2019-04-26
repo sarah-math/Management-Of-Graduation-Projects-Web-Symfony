@@ -1,0 +1,396 @@
+{% extends "GestionPfeBundle::layout.html.twig" %}
+{% block title %}
+    <title>Liste des Offres</title>
+{% endblock title %}
+{% block body %}
+    <div class="page-banner-area" style="background-image: url(/Sites/GestionPFE/web/Client/img/page-banner/cources-banner.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-content">
+                        <!-- Section Title -->
+                        <div class="section-title alt-sec-title">
+                            <h2>Toutes Les Offres Disponibles</h2>
+                            <p>Veuillez choisir un stage ! Bon Chance</p>
+                        </div>
+                        <!-- Page breadcrumb -->
+                        <div class="page-breadcrumb">
+                            <ul>
+                                <li><a href="{{ path('gestion_pfe_user') }}">Acceuil</a></li>
+                                <li><a class="not-active" href="events-one.html">Offree</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- // End Page banner area -->
+    <div class="all-cource-area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Cource search form -->
+                    <div class="cource-search-form cource-search-form-two">
+                        <form action="#">
+                            <input placeholder="Demandes" type="text">
+                            <button class="theme-btn-alt hvr-shutter-in-horizontal" type="submit">Chercher un stage</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- All events -->
+            <div class="row">
+                <!-- Single Couses -->
+                {% for o in offres %}
+                    {% if o.etat == 1 %}
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-cource">
+                            <div class="course-header">
+                                <img src="{{ asset('uploads/user/'~o.idUser.image) }}" alt="">
+
+                                {% if pourcentages[0][0] is defined %}
+                                    {% for pourcentage in pourcentages %}
+                                        {% if pourcentage[0]== o.id %}
+                                            <div title="votre chance pour être acceptée" class="course-new">
+                                                {{ pourcentage[1]|number_format(2, '.', ',') }}%
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="course-new">
+                                        cv vide
+                                    </div>
+                                {% endif %}
+
+                                <div class="course-title">
+                                    <h3><a href="courses-deatail.html">{{ o.titre }}</a></h3>
+                                </div>
+
+                                    <div class="course-price">
+                                        Approuvée
+                                    </div>
+
+
+                            </div>
+                            <div class="course-content">
+                                <div class="course-author">
+                                    <img src="{{ asset('uploads/user/'~o.idUser.image) }}" alt="">
+                                    <span><a href="teacher-detail.html">{{ o.idUser.nom }}</a></span>
+                                </div>
+                                <div class="row">
+
+                                        <div class="col-xs-4">
+                                            <div class="course-time">
+                                                Durée: <span>{{ o.duree }} Mois </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-4">
+                                            <div class="course-time">
+                                                Ajoutée en: <span>date offre</span>
+                                            </div>
+                                        </div>
+
+                                    <div class="col-xs-4">
+                                        <div class="course-time">
+                                            Nombre demandé: <span>{{ o.nbrDemandes }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="course-btn">
+                                    <button onclick="ShowModalLearn({{ o.id }})" class="theme-btn hvr-shutter-in-horizontal">Decouvrir de Plus</button>
+                                    {% if is_granted("ROLE_ETUDIANT") %}
+                                        {% set test = false %}
+                                        {% for b in blackList if not test %}
+                                                 {% if o.id==b.id %}
+
+                                                     {% set test=true %}
+
+                                                {% endif %}
+
+                                        {% endfor %}
+                                        {% if not test  %}
+                                            <button  class="theme-btn-alt hvr-shutter-in-horizontal" id="Post{{ o.id }}" onclick="postulerFunction({{ o.id }})" >Postuler</button>
+
+                                        {% endif %}
+
+                                    {% endif %}
+                                </div>
+                                <input id="resultat" value="{{ resultat }}" hidden>
+
+                            </div>
+                        </div>
+                    </div><!-- // End Single Couses -->
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <!-- Single events -->
+            <!-- Events pagination -->
+            <div class="row">
+                <div class="educare-pagination">
+                    {{ knp_pagination_render(offres) }}
+                </div>
+            </div>
+        </div>
+    </div> <!-- // End events area -->
+
+
+
+
+    <!--modalLearnMore-->
+    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" style="margin-top: 3em" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="class-h1">Offre.</h4>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="modal-body" class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ asset('Client/js/jqueryf.js') }}"></script>
+    <script src="{{ asset('Admin/assets/js/sweetalert.min.js') }}"></script>
+    <script>
+
+        function postulerFunction(id) {
+            var resultat="";
+
+            resultat = $('#resultat').val();
+            if (resultat=="OK") {
+                id = id;
+
+                swal({
+                    title: "Vous etes Sure?",
+                    text: "Vous allez Postuler dans cet offre !",
+                    icon: "success",
+                    buttons: true,
+                    dangerMode: false,
+                    successMode: true
+                })
+                    .then(function (willDelete) {
+                        if (willDelete) {
+                            obj = new Object();
+                            obj["id"] = id;
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ path('_postuler') }}",
+                                data: obj,
+                                dataType: "json",
+                                success: function (response) {
+
+                                }
+
+
+                            });
+
+                            swal("Merci ! La Postulation a été effectuée!", {
+                                icon: "success"
+
+                            });
+                            $('#Post'+id).remove();
+                            /* $("#row"+id).remove();
+                             $('#rowa'+id).remove();
+                             $("#header_notification_bar").notify("Demande Refusée",
+                                 { position:"bottom left",
+                                     // whether to hide the notification on click
+                                     clickToHide: true,
+                                     // whether to auto-hide the notification
+                                     autoHide: true,
+                                     // if autoHide, hide after milliseconds
+                                     autoHideDelay: 5000,
+                                     // show the arrow pointing at the element
+                                     arrowShow: true,
+                                     // arrow size in pixels
+                                     arrowSize: 5,
+                                     // position defines the notification position though uses the defaults below
+                                     position: '...',
+                                     // default positions
+                                     elementPosition: 'bottom left',
+                                     globalPosition: 'top right',
+                                     // default style
+                                     style: 'bootstrap',
+                                     // default class (string or [string])
+                                     className: 'error ',
+                                     // show animation
+                                     showAnimation: 'slideDown',
+                                     // show animation duration
+                                     showDuration: 400,
+                                     // hide animation
+                                     hideAnimation: 'slideUp',
+                                     // hide animation duration
+                                     hideDuration: 200,
+                                     // padding between element and notification
+                                     gap: 2}
+                             );*/
+
+                        } else {
+                            swal("L'Operation est annulée!");
+                        }
+                    });
+
+
+            }
+            else {
+
+                swal({
+                    title: "Oops ! Erreur..",
+                    text: "Vous Devez remplir votre cv avant de postuler !",
+
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                    successMode: false
+
+                })
+                    .then(function (willDelete) {
+                        if (willDelete) {
+                            window.location.href="http://localhost/gestionpfe/web/app_dev.php/afficheformcv"
+
+
+                        } else {
+                            swal("L'Operation est annulée!");
+                        }
+                    });
+
+            }
+        }
+
+    <!--Script-->
+
+        function rescale(){
+            var size = {width: $(window).width() , height: $(window).height() }
+            /*CALCULATE SIZE*/
+            var offset = 200;
+            var offsetBody = 150;
+            $('#myModal').css('height', size.height - offset );
+            $('.modal-body').css('height', size.height - (offset + offsetBody));
+            $('#myModal').css('top', 0);
+            $('.modal-body').css('margin-bottom',60)
+
+        }
+        var div = document.getElementById('modal-body');
+        $(window).bind("resize", rescale);
+        function ShowModalLearn(idOffre) {
+
+
+            rescale();
+            {% for offre in offres %}
+            var offreId={{ offre.id }};
+            if (offreId==idOffre)
+            {
+                var titre="{{ offre.titre }}"
+                div.innerHTML =
+                    '                    <!-- Singel professors -->\n' +
+                    '                    <div class="col-md-12">\n' +
+                    '                        <div class="single-professors-two">\n' +
+                    '                            <div class="row">\n' +
+                    '                                <div class="col-md-4 col-sm-5">\n' +
+                    '                                    <div class="professors-two-img">\n' +
+                    '                                        <img src="{{ asset('uploads/user/'~offre.idUser.image ) }}" alt="">\n' +
+                    '                                    </div>\n' +
+                    '                                </div>\n' +
+                    '                                <div class="col-md-8 col-sm-7">\n' +
+                    '                                    <div class="professors-two-content">\n' +
+                    '                                        <h4>Titre du stage: {{ offre.titre }}</h4>\n' +
+                    '<h5>Les Technologies demandées :</h5>'+
+                        {% for techs in AllTechs %}
+                        {% for tech in techs %}
+                        {% if tech.idOffre is defined %}
+                        {% if tech.idOffre.id == offre.id %}
+                    '                                        <span>{{ tech.tech }}</span>' +
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        {% endfor %}
+                    '<h6>Durée de stage :   </h6>'+
+                    '<span>{{ offre.duree }} mois</span>'+
+                    '<h6>Description : </h6>'+
+                    '<p>{{ offre.description }}</p>\n' +
+                    '</div>\n' +
+                    '</div>\n' +
+                    '</div>\n' +
+                    '</div>\n' +
+                    '</div>\n' ;
+
+            }
+            {% endfor %}
+            $('#largeModal').modal('show')
+            $("[rel=tooltip]").tooltip();
+        }
+
+
+
+
+    </script>
+    <!--Style-->
+    <style>
+
+        .modal-header {
+            padding:9px 15px;
+            border-bottom:1px solid #eee;
+            background-color: #32CD32;
+            -webkit-border-top-left-radius: 2px;
+            -webkit-border-top-right-radius: 2px;
+            -moz-border-radius-topleft: 2px;
+            -moz-border-radius-topright: 2px;
+            border-top-left-radius: 2px;
+            border-top-right-radius: 2px;
+        }
+        .btn-primary,
+        .btn-primary:hover,
+        .btn-primary:active,
+        .btn-primary:visited,
+        .btn-primary:focus {
+            background-color: #32CD32;
+            border-color: #32CD32;
+        }
+        .class-h1 {
+            font-size: 4rem;
+            font-weight: 400;
+            text-align: center;
+            margin: 0rem;
+
+            animation: background-move 10s infinite;
+            background: url(https://blog.spoongraphics.co.uk/wp-content/uploads/2012/retro-pattern/triangle-pattern.jpg);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes background-move {
+            0% {
+                background-position: 0% 0%;
+            }
+            25% {
+                background-position: 5% 10%;
+            }
+            50% {
+                background-position: 15% 15%;
+            }
+            75% {
+                background-position: 10% 5%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 400;
+            src: local("Open Sans"), local("OpenSans"), url(http://themes.googleusercontent.com/static/fonts/opensans/v7/cJZKeOuBrn4kERxqtaUH3bO3LdcAZYWl9Si6vvxL-qU.woff) format("woff");
+        }
+
+
+    </style>
+{% endblock body %}

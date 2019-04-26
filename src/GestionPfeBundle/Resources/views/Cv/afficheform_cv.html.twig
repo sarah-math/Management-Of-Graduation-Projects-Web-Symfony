@@ -1,0 +1,530 @@
+{% extends "GestionPfeBundle::layout.html.twig" %}
+
+
+{% block body %}
+    <div class="page-banner-area"
+         style="background-image: url(/Sites/GestionPFE/web/Client/img/page-banner/page-banner.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-content">
+                        <!-- Section Title -->
+                        <div class="section-title alt-sec-title">
+                            <h2>Remplir Votre CV</h2>
+                            <p>Enrechissez votre Resumé Personnel pour avoir une chance a avoir un stage pfe !</p>
+                        </div>
+                        <!-- Page breadcrumb -->
+                        <div class="page-breadcrumb">
+                            <ul>
+                                <li><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>
+                                <li><a class="not-active" href="{{ path('_afficheform_cv') }} "> Resume Personnel</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="professors-area section-padding professors-detail">
+        <div class="container">
+            <div class="row">
+                <!-- Singel professors -->
+                <div class="col-md-12">
+                    <div class="single-professors-two">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-5">
+                                <div class="professors-two-img">
+                                    <img src="{{ asset('uploads/user/'~app.getUser().getImage()) }}" alt="">
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 col-sm-7">
+                                <div class="professors-two-content">
+
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                    <h4>langues :</h4>
+
+
+                                        <div class="col-sm-7 nopadding">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <select id="Langue1" name="langue[]" class="form-control">
+                                                    <option value="" >Langues</option>
+                                                    <option value="Arabe">Arabe</option>
+                                                    <option value="Francais">Francais</option>
+                                                    <option value="Allmend">Allmend</option>
+                                                    <option value="Chinois">Chinois</option>
+                                                    <option value="Japonnais">Japonnais</option>
+                                                    </select>
+
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-success" type="button" onclick="education_fields();">
+                                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    <div class="clear">
+
+                                    </div>
+                                            <div id="education_fields">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <h4>Formations :</h4>
+
+
+                                            <div class="col-md-12 nopadding">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="1Formation" name="Formation"
+                                                               value="" placeholder="Formation" onkeyup="verif(this.value,1)">
+                                                        <div class="input-group-btn">
+                                                            <button class="btn btn-success" type="button" onclick="education_fieldsformation();">
+                                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="clear">
+
+                                            </div>
+                                            <div id="education_fieldsformation">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="professors-two-content">
+                                                <h4>Centres d'interets :</h4>
+
+
+                                                <div class="col-sm-9 nopadding">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <select class="form-control" id="centres1" name="centres[]">
+
+                                                                <option value="">Centre D'interets</option>
+                                                                <option value="Activité sportive collective">Activité sportive collective</option>
+                                                                <option value="Activité artistique">Activité artistique</option>
+                                                                <option value="Activité culturelle">Activité culturelle</option>
+                                                                <option value="Activité musicale">Activité musicale</option>
+                                                            </select>
+                                                            <div class="input-group-btn">
+                                                                <button class="btn btn-success" type="button"  onclick="education_fieldscentre();"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="clear"></div>
+
+                                            </div>
+                                            <div id="education_fieldscentre">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="professors-two-content">
+                                                <h4>Technologies maitrisés :</h4>
+
+
+                                                <div class="col-sm-9 nopadding">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" id="tech1" name="tech[]"
+                                                                   value="" placeholder="Technologie">
+                                                            <div class="input-group-btn">
+                                                                <button class="btn btn-success" type="button" onclick="education_fieldstech();">
+                                                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="clear">
+
+                                                </div>
+                                                <div id="education_fieldstech">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+
+                                <a href="{{ path('_affiche_cv') }}">
+                                <button class="theme-btn hvr-shutter-in-horizontal"   id="btn-add">Ajouter vos infos</button>
+                                </a>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="{{ asset('Client/js/jquery.sweet-modal.min.js') }}"></script>
+    <script src="{{ asset('Client/js/jqueryf.js') }}"></script>
+    <script src="{{ asset('Client/js/sweetalert2.all.min.js') }}"></script>
+
+
+    <script>
+        var tabFormation= new Array();
+        var tabTech= new Array();
+        var tablangue= new Array();
+        var tabcentres= new Array();
+        //incrementation chanmps langues
+        var room = 1;
+        var l=1;
+        function education_fields() {
+            l++;
+            room++;
+            var objTo = document.getElementById('education_fields')
+            var divtest = document.createElement("div");
+            divtest.setAttribute("class", "form-group removeclass" + room);
+            var rdiv = 'removeclass' + room;
+
+            divtest.innerHTML = ' <div class="col-sm-7 nopadding"><div class="form-group"><div class="input-group"><select id="Langue'+l+'" name="langue[]" class="form-control"><option value="" >Langues</option><option value="Arabe">Arabe</option><option value="Francais">Francais</option><option value="Anglais">Anglais</option><option value="Allmend">Allmend</option><option value="Chinois">Chinois</option><option value="Japonnais">Japonnais</option></select><div class="input-group-btn"><button class="btn btn-danger" type="button"  onclick="remove_education_fields('+room+')"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div>';
+
+            objTo.appendChild(divtest)
+        }
+        //decrementation chanmps langues
+        function remove_education_fields(rid) {
+            $('.removeclass' + rid).remove();
+        }
+        //incrementation chanmps formations
+        var rooma = 1;
+        var f=1;
+
+        function education_fieldsformation() {
+            f++;
+            rooma++;
+            var objTo = document.getElementById('education_fieldsformation')
+            var divtest = document.createElement("div");
+            divtest.setAttribute("class", "form-group removeclass" + rooma);
+            var rdiv = 'removeclass' + rooma;
+
+            divtest.innerHTML = ' <div class="col-md-12 nopadding"><div class="form-group"><div class="input-group"><input type="text" class="form-control" id="'+f+'Formation" onkeyup="verif(this.value,'+f+')" name="Formation" value="" placeholder="Formation"><div class="input-group-btn"><button class="btn btn-danger" type="button"  onclick="remove_education_fieldsformation('+rooma+','+f+');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div>';
+
+            objTo.appendChild(divtest);
+            tabFormation[f]="";
+        }
+        //decrementation chanmps formations
+        function remove_education_fieldsformation(rid,ind) {
+            $('.removeclass' + rid).remove();
+            tabFormation[ind]="";
+        }
+        //incrementation chanmps centres
+        var romcentre = 1;
+        var c=1;
+
+        function education_fieldscentre() {
+            c++;
+            romcentre++;
+            var objTo = document.getElementById('education_fieldscentre')
+            var divtest = document.createElement("div");
+            divtest.setAttribute("class", "form-group removeclass" + romcentre);
+            var rdiv = 'removeclass' + romcentre;
+
+            divtest.innerHTML = ' <div class="col-sm-9 nopadding"><div class="form-group"><div class="input-group"><select class="form-control" id="centres'+c+'" name="centres[]">' +
+
+
+                                                                   ' <option value="">Centre D\'interets</option>' +
+                '<option value="Activité sportive collective">Activité sportive collective</option>' +                                                     '<option value="Activité artistique">Activité artistique</option>' +
+                                                                   ' <option value="Activité culturelle">Activité culturelle</option>' +
+                                                                    '<option value="Activité musicale">Activité musicale</option>' +
+                                                                '</select><div class="input-group-btn"><button class="btn btn-danger" type="button"  onclick="remove_education_fieldscentre(' + romcentre + ');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div>';
+
+            objTo.appendChild(divtest)
+        }
+        //decrementation chanmps centres
+        function remove_education_fieldscentre(rid) {
+            $('.removeclass' + rid).remove();
+        }
+        //incrementation chanmps technologie
+        var roomatech = 1;
+        var t=1;
+
+        function education_fieldstech() {
+            t++;
+            roomatech++;
+            var objTo = document.getElementById('education_fieldstech')
+            var divtest = document.createElement("div");
+            divtest.setAttribute("class", "form-group removeclass" + roomatech);
+            var rdiv = 'removeclass' + roomatech;
+
+            divtest.innerHTML = ' <div class="col-sm-9 nopadding"><div class="form-group"><div class="input-group"><input type="text" class="form-control" id="tech'+t+'"  onkeyup="veriftech(this.value,'+t+')" name="tech[]" value="" placeholder="Technologie"><div class="input-group-btn"><button class="btn btn-danger" type="button"  onclick="remove_education_fieldstech('+roomatech+','+t+');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div>';
+
+            objTo.appendChild(divtest)
+            initAutoComplete(t);
+            tabTech[t]="";
+
+
+        }
+        //decrementation chanmps technologie
+        function remove_education_fieldstech(rid,indt) {
+
+            $('.removeclass' + rid).remove();
+            tabTech[indt]="";
+
+        }
+
+
+        $(document).ready(function () {
+            initAutoComplete(1);
+
+            $("#btn-add").on('click', function () {
+                if($('#centres1').find(":selected").val()=="" ||  $('#Formation1').val()==""
+                    || $('#Langue1').val()==""
+                    || $('#tech1').val()==""
+                )
+
+                {
+
+                    swal("Attention !", "Tous les champs sont obligatoirs !", "warning");
+
+
+                    return false;
+                }
+                obj = new Object();
+                for (var i = 1; i <= l; i++)
+                {
+                    if($('#Langue'+i+'').length)
+                    {
+                        obj["langue"+i+""] = $('#Langue'+i+'').find(":selected").val();
+
+                    }
+
+                }
+
+                for (var j = 1; j <= c; j++)
+                {
+                    if($('#centres'+j+'').length)
+                    {
+                        obj["centre"+j+""] = $('#centres'+j+'').find(":selected").val();
+                    }
+
+
+                }
+                for (var k = 1; k <= f; k++)
+                {
+                    if($('#'+k+'Formation').length)
+                    {
+                        obj["formation"+k+""] = $('#'+k+'Formation').val();
+                    }
+
+
+                }
+                for (var y = 1; y <= t; y++)
+                {
+                    if($('#tech'+y+'').length)
+                    {
+                        obj["tech"+y+""] = $('#tech'+y+'').val();
+
+                    }
+
+                }
+
+                obj["maxcentre"]=c;
+                obj["maxtech"]=t;
+                obj["maxformation"]=f;
+                obj["maxlangue"]=l;
+
+
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('_remplir_cv') }}",
+                    data: obj,
+                    dataType: "json",
+                    success: function (response)
+                    {
+
+                    }
+
+
+
+                });
+
+                    swal({
+                            title: "Success",
+                            text: "Merci ! vous avez rempli votre cv !",
+                            type: "success"
+                        }
+                    );
+
+
+
+            });
+
+
+
+        });
+
+
+        function verif(text,id) {
+
+            tabFormation[id]=text.toLowerCase();
+            var a;
+            for(var indF=0;indF<=f;indF++)
+            {
+
+                if(indF!=id )
+                {
+                    if(tabFormation[indF]==text)
+                    {
+                        //alert("!");
+                        swal("attention!", "vous avez deja saisi cette cette formation!", "warning");
+                        $('#'+id+'Formation').val("");
+                        tabFormation[indF]="";
+                        a=true;
+                        return a ;
+                    }
+
+                }
+
+
+
+
+            }
+        }
+        function verifLangue(text,id) {
+
+            tabFormation[id]=text.toLowerCase();
+            var a;
+            for(var indF=0;indF<=f;indF++)
+            {
+
+                if(indF!=id )
+                {
+                    if(tabFormation[indF]==text)
+                    {
+                        //alert("!");
+                        swal("attention!", "vous avez deja saisi cette cette formation!", "warning");
+                        $('#'+id+'Formation').val("");
+                        tabFormation[indF]="";
+                        a=true;
+                        return a ;
+                    }
+
+                }
+
+
+
+
+            }
+        }
+        function veriftech(text,id) {
+
+           /* tabTech[id]=text.toLowerCase();
+
+            var a;
+
+            for(var indt=0;indt<=t;indt++)
+            {
+                {
+                if(indt!=id )
+
+                    if(tabTech[indt]==text)
+                    {
+                        alert("a")
+                        swal("attention!", "vous avez deja saisi ce technologie!", "warning");
+                        $('#'+id+"tech").val("");
+                        tabTech[indt]="";
+                        a=true;
+                        return a ;
+                    }
+
+                }
+
+
+
+
+            }*/
+        }
+        function verifcentre(text,id) {
+
+            tabFormation[id]=text.toLowerCase();
+            var a;
+            for(var indF=0;indF<=f;indF++)
+            {
+
+                if(indF!=id )
+                {
+                    if(tabFormation[indF]==text)
+                    {
+                        //alert("!");
+                        swal("attention!", "vous avez deja saisi cette cette formation!", "warning");
+                        $('#'+id+'Formation').val("");
+                        tabFormation[indF]="";
+                        a=true;
+                        return a ;
+                    }
+
+                }
+
+
+
+
+            }
+        }
+
+        function initAutoComplete(k) {
+            var availableTags = [
+                "ActionScript",
+                "AppleScript",
+                "Asp",
+                "BASIC",
+                "C",
+                "C++",
+                "Clojure",
+                "COBOL",
+                "ColdFusion",
+                "Erlang",
+                "Fortran",
+                "Groovy",
+                "Haskell",
+                "Java",
+                "JavaScript",
+                "Lisp",
+                "Perl",
+                "PHP",
+                "Python",
+                "Ruby",
+                "Scala",
+                "Scheme"
+            ];
+            $( "#tech"+k ).autocomplete({
+                source: availableTags
+            });
+        };
+
+
+    </script>
+
+{% endblock  body %}

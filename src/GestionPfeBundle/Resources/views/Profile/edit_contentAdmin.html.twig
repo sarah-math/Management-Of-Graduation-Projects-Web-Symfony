@@ -1,0 +1,135 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+    {{ form_widget(form) }}
+    <div>
+        <input type="submit" value="{{ 'profile.edit.submit'|trans }}" />
+    </div>
+    {{ form_end(form) }}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+            <div class="card-head">
+                <header>Basic Information</header>
+                <button id="panel-button" class="mdl-button mdl-js-button mdl-button--icon pull-right" data-upgraded=",MaterialButton">
+                    <i class="material-icons">more_vert</i>
+                </button>
+                <div class="mdl-menu__container is-upgraded" style="right: 12px; top: 34px; width: 188.469px; height: 160px;"><div class="mdl-menu__outline mdl-menu--bottom-right" style="width: 188.469px; height: 160px;"></div><ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect mdl-js-ripple-effect--ignore-events" data-mdl-for="panel-button" data-upgraded=",MaterialMenu,MaterialRipple" style="clip: rect(0px 188.469px 0px 188.469px);">
+                        <li class="mdl-menu__item mdl-js-ripple-effect" tabindex="-1" data-upgraded=",MaterialRipple" style=""><i class="material-icons">assistant_photo</i>Action<span class="mdl-menu__item-ripple-container"><span class="mdl-ripple" style="width: 390.97px; height: 390.97px; transform: translate(-50%, -50%) translate(56px, 29px);"></span></span></li>
+                        <li class="mdl-menu__item mdl-js-ripple-effect" tabindex="-1" data-upgraded=",MaterialRipple" style=""><i class="material-icons">print</i>Another action<span class="mdl-menu__item-ripple-container"><span class="mdl-ripple" style="width: 390.97px; height: 390.97px; transform: translate(-50%, -50%) translate(62px, 25px);"></span></span></li>
+                        <li class="mdl-menu__item mdl-js-ripple-effect" tabindex="-1" data-upgraded=",MaterialRipple" style=""><i class="material-icons">favorite</i>Something else here<span class="mdl-menu__item-ripple-container"><span class="mdl-ripple" style="width: 390.97px; height: 390.97px; transform: translate(-50%, -50%) translate(71px, 19px);"></span></span></li>
+                    </ul></div>
+            </div>
+            <div class="card-body row">
+                <div class="col-lg-6 p-t-20">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width is-dirty is-upgraded" data-upgraded=",MaterialTextfield">
+                        <input class="mdl-textfield__input" type="text" value="Jayesh" id="txtFirstName">
+                        <label class="mdl-textfield__label">First Name</label>
+                    </div>
+                </div>
+                <div class="col-lg-6 p-t-20">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width is-dirty is-upgraded" data-upgraded=",MaterialTextfield">
+                        <input class="mdl-textfield__input" type="text" value="Joshi" id="txtLasttName">
+                        <label class="mdl-textfield__label">Last Name</label>
+                    </div>
+                </div>
+                <div class="col-lg-6 p-t-20">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width is-dirty is-upgraded" data-upgraded=",MaterialTextfield">
+                        <input class="mdl-textfield__input" type="email" value="test@example.com" id="txtemail">
+                        <label class="mdl-textfield__label">Email</label>
+                        <span class="mdl-textfield__error">Enter Valid Email Address!</span>
+                    </div>
+                </div>
+                <div class="col-lg-6 p-t-20">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width is-dirty is-upgraded" data-upgraded=",MaterialTextfield">
+                        <input class="mdl-textfield__input" type="text" value="2017-12-20" id="date" data-dtp="dtp_pi8wa">
+                        <label class="mdl-textfield__label">Joining Date</label>
+                    </div>
+                </div>
+                <div class="col-lg-6 p-t-20">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width is-upgraded" data-upgraded=",MaterialTextfield">
+                        <input class="mdl-textfield__input" type="password" id="txtPwd">
+                        <label class="mdl-textfield__label">Password</label>
+                    </div>
+                </div>
+                <div class="col-lg-6 p-t-20">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width is-upgraded" data-upgraded=",MaterialTextfield">
+                        <input class="mdl-textfield__input" type="password" id="txtConfirmPwd">
+                        <label class="mdl-textfield__label">Confirm Password</label>
+                    </div>
+                </div>
+                <div class="col-lg-6 p-t-20">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width is-dirty is-upgraded" data-upgraded=",MaterialTextfield">
+                        <input class="mdl-textfield__input" type="text" value="Jr. Professor" id="designation">
+                        <label class="mdl-textfield__label">Designation</label>
+                    </div>
+                </div>
+                <div class="col-lg-6 p-t-20">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height txt-full-width is-dirty is-upgraded" data-upgraded=",MaterialTextfield" style="width: 124px;">
+                        <input class="mdl-textfield__input" type="text" id="list2" value="Computer" readonly="" tabindex="-1">
+                        <label for="list2" class="pull-right margin-0">
+                            <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+                        </label>
+                        <label for="list2" class="mdl-textfield__label">Department</label>
+                        <div class="mdl-menu__container is-upgraded"><div class="mdl-menu__outline mdl-menu--bottom-left"></div><ul data-mdl-for="list2" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" data-upgraded=",MaterialMenu">
+                                <li class="mdl-menu__item" data-val="DE" tabindex="-1">Computer</li>
+                                <li class="mdl-menu__item" data-val="BY" tabindex="-1">Mechanical</li>
+                                <li class="mdl-menu__item" data-val="BY" tabindex="-1">Mathematics</li>
+                                <li class="mdl-menu__item" data-val="BY" tabindex="-1">Commerce</li>
+                            </ul></div>
+                    </div>
+                </div>
+                <div class="col-lg-6 p-t-20">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height txt-full-width is-dirty is-upgraded" data-upgraded=",MaterialTextfield" style="width: 124px;">
+                        <input class="mdl-textfield__input" type="text" id="sample2" value="Male" readonly="" tabindex="-1">
+                        <label for="sample2" class="pull-right margin-0">
+                            <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+                        </label>
+                        <label for="sample2" class="mdl-textfield__label">Gender</label>
+                        <div class="mdl-menu__container is-upgraded"><div class="mdl-menu__outline mdl-menu--bottom-left"></div><ul data-mdl-for="sample2" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" data-upgraded=",MaterialMenu">
+                                <li class="mdl-menu__item" data-val="DE" tabindex="-1">Male</li>
+                                <li class="mdl-menu__item" data-val="BY" tabindex="-1">Female</li>
+                            </ul></div>
+                    </div>
+                </div>
+                <div class="col-lg-6 p-t-20">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width is-dirty is-upgraded" data-upgraded=",MaterialTextfield">
+                        <input class="mdl-textfield__input" type="text" value="1234567890" pattern="-?[0-9]*(\.[0-9]+)?" id="text5">
+                        <label class="mdl-textfield__label" for="text5">Mobile Number</label>
+                        <span class="mdl-textfield__error">Number required!</span>
+                    </div>
+                </div>
+                <div class="col-lg-6 p-t-20">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width is-dirty is-upgraded" data-upgraded=",MaterialTextfield">
+                        <input class="mdl-textfield__input" type="text" value="1987-05-23" id="dateOfBirth" data-dtp="dtp_U1W9G">
+                        <label class="mdl-textfield__label">Birth Date</label>
+                    </div>
+                </div>
+                <div class="col-lg-12 p-t-20">
+                    <div class="mdl-textfield mdl-js-textfield txt-full-width is-dirty is-upgraded" data-upgraded=",MaterialTextfield">
+                        <textarea class="mdl-textfield__input" rows="4" id="text7">34, Prabhat Appartment, New Delhi</textarea>
+                        <label class="mdl-textfield__label" for="text7">Address</label>
+                    </div>
+                </div>
+                <div class="col-lg-12 p-t-20">
+                    <label class="control-label col-md-3">Upload Photo
+                    </label>
+                    <div class="col-md-12">
+                        <div id="id_dropzone" class="dropzone dz-clickable"><div class="dz-default dz-message"><span>Drop files here to upload</span></div></div>
+                    </div>
+                </div>
+                <div class="col-lg-12 p-t-20">
+                    <div class="mdl-textfield mdl-js-textfield txt-full-width is-dirty is-upgraded" data-upgraded=",MaterialTextfield">
+                        <textarea class="mdl-textfield__input" rows="4" id="education">B.com, B.Ed</textarea>
+                        <label class="mdl-textfield__label" for="text7">Education</label>
+                    </div>
+                </div>
+                <div class="col-lg-12 p-t-20 text-center">
+                    <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink" data-upgraded=",MaterialButton,MaterialRipple">Submit<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+                    <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default" data-upgraded=",MaterialButton,MaterialRipple">Cancel<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

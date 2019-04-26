@@ -1,0 +1,144 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% block title %}
+    <title>Educare | Your Profil</title>
+{% endblock title %}
+{% block body %}
+
+    <div class="page-banner-area" style="background-image: url(/Sites/GestionPFE/web/Client/img/page-banner/page-banner.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-content">
+                        <!-- Section Title -->
+                        <div class="section-title alt-sec-title">
+                            <h2>Details Profile</h2>
+                            <p>Consulter Vottre profile pour faire les modifications que vous souhaitez !</p>
+                        </div>
+                        <!-- Page breadcrumb -->
+                        <div class="page-breadcrumb">
+                            <ul>
+                                <li><a href="{{ path('gestion_pfe_homepage') }}">Acceuil</a></li>
+                                <li><a class="not-active" href="{{ path('fos_user_profile_show') }} ">Details de Profile</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- // End Page banner area -->
+    <!-- Professors area -->
+    <div class="professors-area section-padding professors-detail">
+        <div class="container">
+            <div class="row">
+                <!-- Singel professors -->
+                <div class="col-md-12">
+                    <div class="single-professors-two">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-5">
+                                <div class="professors-two-img">
+                                    <figure>
+                                        <img  alt=""
+                                             src="{{ asset('uploads/user/'~app.getUser.getImage()) }}">
+                                    </figure>
+
+                                    <div class="row">
+                                        <div class="col-xs-12 social-btns" >
+
+                                            <div class="col-xs-3 col-md-1 col-lg-2 social-btn-holder" style="margin-left: 25px">
+                                                <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-social btn-social btn-facebook">
+                                                    <i class="fa fa-user-circle-o"></i> </a>
+                                            </div>
+
+                                            <div class="col-xs-3 col-md-1 col-lg-2 social-btn-holder">
+                                                <a href="{{ path('fos_user_change_password') }}" class="btn btn-social btn-danger btn-facebook">
+                                                    <i class="fa fa-user-secret"></i> </a>
+                                            </div>
+                                            {% if is_granted("ROLE_ETUDIANT") %}
+                                            <div class="col-xs-3 col-md-1 col-lg-2 social-btn-holder">
+                                                <a href="{{ path('_afficheform_cv') }}" class="btn btn-social btn-facebook btn-twitter">
+                                                    <i class="fa fa-file-pdf-o"></i> </a>
+                                            </div>
+
+                                            <div class="col-xs-3 col-md-1 col-lg-2 social-btn-holder">
+                                                <a href="#" class="btn btn-social btn-warning btn-linkedin">
+                                                    <i class="fa fa-recycle"></i> </a>
+                                            </div>
+
+                                            <div class="col-xs-3 col-md-1 col-lg-2 social-btn-holder">
+                                                <a href="{{ path('_afficher_demandeEtudiant') }}" class="btn btn-social btn-youtube btn-github">
+                                                    <i class="fa fa-bookmark-o"></i> </a>
+                                            </div>
+                                            {% endif %}
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-7">
+                                <div class="professors-two-content">
+
+                                    <div class="panel-heading resume-heading">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+
+
+                                                <div class="col-xs-12 col-sm-12">
+                                                   {% block demande %}
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item">
+                                                            <span>{{ app.getUser().getNom() }} {{ app.getUser().getPrenom() }}</span>
+                                                        </li>
+                                                        <li class="list-group-item">Ingenieur Genie Logiciels</li>
+                                                        <li class="list-group-item">Esprit</li>
+                                                        <li class="list-group-item"><i class="fa fa-phone"></i>
+                                                            +216 {{ app.getUser().getNumeroTel() }}</li>
+                                                        <li class="list-group-item"><i class="fa fa-envelope"></i> {{ app.getUser().getEmail() }}</li>
+                                                        <li class="list-group-item"><i class="fa fa-address-book"></i> {{ app.getUser().getRue() }}</li>
+                                                        <li class="list-group-item"><i class="fa fa-envelope"></i> {{ app.getUser().getCodePostal() }}</li>
+                                                        <li class="list-group-item"><i class="fa fa-address-book"></i> {{ app.getUser().getVille() }},Tunisie
+                                                        </li>
+                                                    </ul>
+                                                    {% endblock demande %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- professors Social links -->
+
+
+
+                                    <div class="mes-btn">
+
+                                        <button  class="theme-btn hvr-shutter-in-horizontal" style="float: right" aria-label="Retour">
+                                            <a href="{{ path('gestion_pfe_homepage') }}">
+                                                <i class="fa fa-graduation-cap"></i> </a>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div> <!-- // End Professors area -->
+
+
+
+
+{% endblock body %}
+
+
+
+
+
+
+<!-- nav bar -->

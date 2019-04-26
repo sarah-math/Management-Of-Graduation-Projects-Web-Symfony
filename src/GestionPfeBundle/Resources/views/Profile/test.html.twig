@@ -1,0 +1,122 @@
+<div class="col-md-12">
+    <div class="single-professors-two">
+        <div class="row">
+            <div class="col-md-4 col-sm-5">
+                <div class="professors-two-img">
+                    <img src="{{ asset('uploads/user/'~app.getUser().getImage()) }}" alt="">
+                </div>
+            </div>
+
+            <div class="col-md-8 col-sm-7">
+                <div class="professors-two-content">
+                    <h4>langues :</h4>
+                    <div id="education_fields">
+
+                    </div>
+
+                    <div class="col-sm-3 nopadding">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="Langue1" name="langue[]"
+                                       value="" placeholder="Langue">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-success" type="button" onclick="education_fields();">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="clear">
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-8 col-sm-7">
+                <div class="professors-two-content">
+                    <h4>Formations :</h4>
+                    <div id="education_fieldsformation">
+
+                    </div>
+
+                    <div class="col-md-9 nopadding">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="1Formation" name="Formation"
+                                       value="" placeholder="Formation" onkeyup="verif(this.value,1)">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-success" type="button" onclick="education_fieldsformation();">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear">
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-8 col-sm-7">
+                <div class="professors-two-content">
+                    <h4>Centres d'interets :</h4>
+                    <div id="education_fieldscentre">
+
+                    </div>
+
+                    <div class="col-sm-4 nopadding">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <select class="form-control" id="centres1" name="centres[]">
+
+                                    <option value="">Centre D'interets</option>
+                                    <option value="Activité sportive collective">Activité sportive collective</option>
+                                    <option value="Activité artistique">Activité artistique</option>
+                                    <option value="Activité culturelle">Activité culturelle</option>
+                                    <option value="Activité musicale">Activité musicale</option>
+                                </select>
+                                <div class="input-group-btn">
+                                    <button class="btn btn-success" type="button"  onclick="education_fieldscentre();"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+                </div>
+
+            </div>
+            <div class="col-md-8 col-sm-7">
+                <div class="professors-two-content">
+                    <h4>Technologies maitrisés :</h4>
+                    <div id="education_fieldstech">
+
+                    </div>
+
+                    <div class="col-sm-5 nopadding">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="tech1" name="tech[]"
+                                       value="" placeholder="Technologie">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-success" type="button" onclick="education_fieldstech();">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear">
+
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="theme-btn hvr-shutter-in-horizontal"   id="btn-add">Ajouter vos infos</button>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,164 @@
+{% extends "GestionPfeBundle::layout.html.twig" %}
+{% block title %}
+    <title>Vos Demandes</title>
+    {% endblock title %}
+{% block body %}
+    <div class="page-banner-area" style="background-image: url(/Sites/GestionPFE/web/Client/img/page-banner/cources-banner.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-content">
+                        <!-- Section Title -->
+                        <div class="section-title alt-sec-title">
+                            <h2>Toutes Vos Demandes</h2>
+                            <p>Choisir l'un de stages pour confirmer !</p>
+                        </div>
+                        <!-- Page breadcrumb -->
+                        <div class="page-breadcrumb">
+                            <ul>
+                                <li><a href="index.html">Acceuil</a></li>
+                                <li><a class="not-active" href="events-one.html">Demandes</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- // End Page banner area -->
+    <div class="all-cource-area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Cource search form -->
+                    <div class="cource-search-form cource-search-form-two">
+                        <form action="#">
+                            <input placeholder="Demandes" type="text">
+                            <button class="theme-btn-alt hvr-shutter-in-horizontal" type="submit">Chercher un stage</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- All events -->
+            <div class="row">
+                <!-- Single Couses -->
+                {% for d in demandes %}
+                <div class="col-md-4 col-sm-6">
+                    <div class="single-cource">
+                        <div class="course-header">
+                            <img src="{{ asset('uploads/user/'~d.idOffre.idUser.image) }}" alt="">
+                            {% if d.etatEntretien == 1 %}
+                            <div class="course-new">
+                                BRAVO!
+                            </div>
+                                {% endif %}
+                            <div class="course-title">
+                                <h3><a href="courses-deatail.html">{{ d.idOffre.titre }}</a></h3>
+                            </div>
+                            {% if d.etatDemande == 1 %}
+                            <div class="course-price">
+                                Acceptée
+                            </div>
+                                {% elseif d.etatDemande is not defined %}
+                                <div class="course-price">
+                                    Refusée
+                                </div>
+                                    {% else %}
+                                <div class="course-price">
+                                    Attente
+                                </div>
+                                {% endif %}
+                        </div>
+                        <div class="course-content">
+                            <div class="course-author">
+                                <img src="{{ asset('uploads/user/'~d.idUser.image) }}" alt="">
+                                <span><a href="teacher-detail.html">{{ d.idOffre.idUser.nom }}</a></span>
+                            </div>
+                            <div class="row">
+                                {% if d.etatEntretien ==null %}
+                                <div class="col-xs-4">
+                                    <div class="course-time">
+                                        Etat: <span>non traité </span>
+                                    </div>
+                                </div>
+                                {% elseif d.etatEntretien == 0 %}
+                                    <div class="col-xs-4">
+                                        <div class="course-time">
+                                            Etat: <span> Refusée </span>
+                                        </div>
+                                    </div>
+                                    {% else  %}
+                                    <div class="col-xs-4">
+                                        <div class="course-time">
+                                            Etat: <span>Acceptée </span>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                {% if d.dateEntretien is not null %}
+                                <div class="col-xs-4">
+                                    <div class="course-time">
+                                         Entretien: <span>{{ d.dateEntretien|date }}</span>
+                                    </div>
+                                </div>
+                                    {% endif %}
+                                <div class="col-xs-4">
+                                    <div class="course-time">
+                                        Demande: <span>{{ d.dateDemande|date }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="course-btn">
+                                <a href="#" class="theme-btn hvr-shutter-in-horizontal">Confirmer</a>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- // End Single Couses -->
+                {% endfor %}
+            </div>
+            <!-- Single events -->
+            <!-- Events pagination -->
+            <div class="row">
+                <div class="educare-pagination">
+                    {{ knp_pagination_render(demandes) }}
+                </div>
+            </div>
+        </div>
+    </div> <!-- // End events area -->
+    <script>
+        window.onload(function () {
+            $("#header_notification_bar").notify("Succés! Voir les Acceptés!",
+                { position:"bottom left",
+                    // whether to hide the notification on click
+                    clickToHide: true,
+                    // whether to auto-hide the notification
+                    autoHide: true,
+                    // if autoHide, hide after milliseconds
+                    autoHideDelay: 5000,
+                    // show the arrow pointing at the element
+                    arrowShow: true,
+                    // arrow size in pixels
+                    arrowSize: 5,
+                    // position defines the notification position though uses the defaults below
+                    position: '...',
+                    // default positions
+                    elementPosition: 'bottom left',
+                    globalPosition: 'top right',
+                    // default style
+                    style: 'bootstrap',
+                    // default class (string or [string])
+                    className: 'success',
+                    // show animation
+                    showAnimation: 'slideDown',
+                    // show animation duration
+                    showDuration: 400,
+                    // hide animation
+                    hideAnimation: 'slideUp',
+                    // hide animation duration
+                    hideDuration: 200,
+                    // padding between element and notification
+                    gap: 2}
+            );
+        })
+
+    </script>
+{% endblock body %}

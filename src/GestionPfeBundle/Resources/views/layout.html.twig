@@ -1,0 +1,356 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+{% block subject %}
+{% endblock subject %}
+{% block body_text %}
+{% endblock body_text %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+   {% block title %}
+
+   {% endblock title %}
+
+
+    <meta name="description" content="Educare education eesponsive html 5 TEMPLATE">
+    <meta name="keywords" content="university, education, academy, college, course, institute, teacher, events, responsive, html 5, learn, lesson, tutor, academic, educational">
+    <meta name="author" content="Coderhut">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('Client/img/favicon.png') }}">
+
+    <!-- Google Fonts:  -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,700" rel="stylesheet">
+
+    <!-- Css File -->
+    <link rel="stylesheet" href="{{ asset('Client/css/font-awesome.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('Client/css/jquery.sweet-modal.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Client/css/profile.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('Client/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Client/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Client/css/YouTubePopUp.css') }}">
+    <link rel="stylesheet" href="{{ asset('Client/css/slicknav.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Client/css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('Client/css/hover-min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Client/css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ asset('Client/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('Client/css/responsive.css') }}">
+
+
+    <link href="{{ asset('Admin/assets/plugins/dropzone/dropzone.css') }}" rel="stylesheet" media="screen">
+
+    <!-- Modernizer -->
+    <script src="{{ asset('Client/js/vendor/modernizr-2.8.3.min.js') }}"></script>
+
+
+
+</head>
+<body>
+
+
+<!-- Theme preloader -->
+<div class="thme-preloader">
+    <div class="sk-circle">
+        <div class="sk-circle1 sk-child"></div>
+        <div class="sk-circle2 sk-child"></div>
+        <div class="sk-circle3 sk-child"></div>
+        <div class="sk-circle4 sk-child"></div>
+        <div class="sk-circle5 sk-child"></div>
+        <div class="sk-circle6 sk-child"></div>
+        <div class="sk-circle7 sk-child"></div>
+        <div class="sk-circle8 sk-child"></div>
+        <div class="sk-circle9 sk-child"></div>
+        <div class="sk-circle10 sk-child"></div>
+        <div class="sk-circle11 sk-child"></div>
+        <div class="sk-circle12 sk-child"></div>
+    </div>
+</div><!-- // End Theme preloader -->
+
+<!-- Main header area -->
+<header class="main-header-area">
+    <!-- Header top area -->
+
+    <div class="header-top-area">
+        <div class="container">
+            <div class="row">
+                <!-- Header Social menu -->
+                <div class="col-md-4">
+                    <div class="header-social-menu">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Header info menu -->
+                <div class="col-md-8">
+                    <div class="header-info-menu">
+                        <ul>
+
+                            <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i> info@AFK.com</a></li>
+
+                            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+
+
+                                Bonjour {{ app.user.getUsername() }} |
+                                <li><a href="{{ path('fos_user_profile_show') }} "><i class="fa fa-user" aria-hidden="true"></i>Profile</a></li>
+                                <li><a href="{{ path('fos_user_security_logout') }} " ><i class="fa fa-sign-out" aria-hidden="true"></i>LogOut</a></li>
+
+                            {% else %}
+                                <li><a href="{{ path('fos_user_registration_register') }}"><i class="fa fa-sign-in" aria-hidden="true"></i> Register</a></li>
+                                <li><a href="{{ path('fos_user_security_login') }}"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a></li>
+
+                            {% endif %}
+
+                            <li id="search-show"><i class="fa fa-search" aria-hidden="true"></i></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- // End Header top area -->
+    <!-- Header bottom area -->
+    <div class="header-bottom-area">
+        <!-- Search area -->
+        <div class="search-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="cros-btn">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </div>
+                        <form action="#">
+                            <input type="text" placeholder="Search Here...">
+                            <button class="theme-btn hvr-shutter-in-horizontal" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <!-- logo area -->
+                <div class="col-md-3">
+                    <div class="logo-area">
+                        <a href="{{ path("gestion_pfe_homepage") }}">
+                            <img src="{{ asset('Client/img/logo.png') }}" alt="Logo" >
+                        </a>
+                    </div>
+
+                    <!-- Mobile menu -->
+                    <div class="mobile-menu visible-xs visible-sm"></div>
+                </div>
+                <!-- Main menu area -->
+                <div class="col-md-9">
+                    <nav class="main-menu-area visible-lg visible-md">
+                        <ul>
+                            <li><a href="index.html">Acceuil<span>Bienvenue</span></a>
+                                <ul>
+                                    <li><a href="index.html">Home page one</a></li>
+                                    <li><a href="index-two.html">Home page two</a></li>
+                                    <li><a href="index-three.html">Home page Three</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="about-us-one.html">Offres<span>Offres PFE</span></a>
+                                <ul>
+                                    <li><a href="about-us-one.html">La liste des Offres PFE disponibles</a></li>
+
+                                </ul>
+                            </li>
+                            <li><a href="#">Events<span>all activites</span></a>
+                                <ul>
+                                    <li><a href="events-one.html">Events list</a></li>
+                                    <li><a href="events-two.html">Events grid</a></li>
+                                    <li><a href="event-detail.html">Event detail</a></li>
+                                </ul>
+                            </li>
+
+                            <li><a href="#">Blog<span>Discussions</span></a>
+                                <ul>
+                                    <li><a href="blog-one.html">Blog full</a></li>
+                                    <li><a href="blog-two.html">Blog Left sidebar</a></li>
+                                    <li><a href="blog-three.html">Blog right sidebar</a></li>
+                                    <li><a href="blog-single-post.html">Single blog post</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="contact-us-one.html">Contacter nous<span>tout contact</span></a>
+                                <ul>
+                                    <li><a href="contact-us-one.html">contacter nous</a></li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div><!-- // End Header bottom area -->
+</header><!-- // End Main header area -->
+
+{% block body %}
+<!-- Main banner area -->
+
+
+
+    <!-- About us area -->
+
+{% endblock body %}
+
+
+<!-- Main footer area -->
+<footer class="main-footer-area">
+    <!-- Footer top area -->
+    <div class="footer-top-area">
+        <div class="container">
+            <!-- All footer widget -->
+            <div class="row ">
+                <!-- Single Footer Widget -->
+                <div class="col-md-4">
+                    <div class="single-footer-widget">
+                        <div class="widget-title">
+                            <h4><span>Twitter</span> feed</h4>
+                        </div>
+                        <div class="widget-content">
+                            <!-- Twiter Feed -->
+                            <div class="twitter-caro owl-carousel">
+                                <!-- Single tweets -->
+                                <div class="single-tweets">
+                                    <div class="tweets-header">
+                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                        <h5>Educare <a href="#">@eaducare</a></h5>
+                                    </div>
+                                    <div class="tweets-content">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, natus <a href="#">https://t.co/HPHigV0yS2</a></p>
+                                        <span>1 hours ago</span>
+                                    </div>
+                                </div>
+                                <!-- Single tweets -->
+                                <div class="single-tweets">
+                                    <div class="tweets-header">
+                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                        <h5>Educare <a href="#">@eaducare</a></h5>
+                                    </div>
+                                    <div class="tweets-content">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, natus <a href="#">https://t.co/HPHigV0yS2</a></p>
+                                        <span>3 hours ago</span>
+                                    </div>
+                                </div>
+                                <!-- Single tweets -->
+                                <div class="single-tweets">
+                                    <div class="tweets-header">
+                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                        <h5>Educare <a href="#">@eaducare</a></h5>
+                                    </div>
+                                    <div class="tweets-content">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, natus <a href="#">https://t.co/HPHigV0yS2</a></p>
+                                        <span>5 hours ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Single Footer Widget -->
+                <div class="col-md-4">
+                    <div class="single-footer-widget">
+                        <div class="widget-title">
+                            <!-- Footer Logo -->
+                            <img src="{{ asset('Client/img/footer-logo.png') }}" alt="Footer logo">
+                        </div>
+                        <div class="widget-content">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque quis eos laudantium, ut asperiores quidem. Possimus voluptate, culpa distinctio velit!</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe neque in eos dolorum, ea sapiente.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Single Footer Widget -->
+                <div class="col-md-4">
+                    <div class="single-footer-widget">
+                        <div class="widget-title">
+                            <h4><span>Recent</span> categories</h4>
+                        </div>
+                        <div class="widget-content">
+                            <ul class="categories-widget">
+                                <li><a href="#">courses</a></li>
+                                <li><a href="#">teachers</a></li>
+                                <li><a href="#">subjects</a></li>
+                                <li><a href="#">masters degree</a></li>
+                                <li><a href="#">bachelors</a></li>
+                                <li><a href="#">PHD</a></li>
+                                <li><a href="#">M phil</a></li>
+                                <li><a href="#">athletics</a></li>
+                                <li><a href="#">biology</a></li>
+                                <li><a href="#">courses</a></li>
+                                <li><a href="#">teachers</a></li>
+                                <li><a href="#">subjects</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- // End All footer widget -->
+            <div class="row ">
+                <div class="col-md-12">
+                    <!-- Footer Menu -->
+                    <nav class="footer-menu">
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="about-us-one.html">About us</a></li>
+                            <li><a href="events-one.html">Events</a></li>
+                            <li><a href="courses-one.html">Cources</a></li>
+                            <li><a href="blog-one.html">Blog</a></li>
+                            <li><a href="contact-us-one.html">contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div><!-- // End Footer top area -->
+    <!-- Footer bottom area -->
+    <div class="footer-bottom-area">
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-12">
+                    <!-- Copyright text -->
+                    <div class="copyright-text">
+                        <p>all rights reserved @ <a href="#"><img src="{{ asset('Client/img/logo.png') }}" alt=""></a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- // End Footer bottom area -->
+</footer><!-- // End Main footer area -->
+
+<!-- Js File -->
+<script src="{{ asset('Client/js/vendor/jquery-2.2.4.min.js') }}"></script>
+<script src="{{ asset('Client/js/waypoints.min.js') }}"></script>
+<script src="{{ asset('Client/js/bootstrap.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('Client/css/jquery-ui.css') }}">
+<script src="{{ asset('Client/js/jquery-ui.js') }}"></script>
+<script src="{{ asset('Client/js/jquery.slicknav.min.js') }}"></script>
+<script src="{{ asset('Client/js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('Client/js/jquery.directional-hover.js') }}"></script>
+<script src="{{ asset('Client/js/YouTubePopUp.jquery.js') }}"></script>
+<script src="{{ asset('Client/js/jquery.counterup.min.js') }}"></script>
+<script src="{{ asset('Client/js/jquery.countdown.min.js') }}"></script>
+<script src="{{ asset('Client/js/jquery.vide.min.js') }}"></script>
+<script src="{{ asset('Client/js/jquery.scrollUp.min.js') }}"></script>
+<script src="{{ asset('Client/js/jarallax.min.js') }}"></script>
+<script src="{{ asset('Client/js/gmap3.min.js') }}"></script>
+<script src="{{ asset('Client/js/jquery.bootstrap-growl.js') }}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnkFpuHPjRGE2vBvEqdTfOMIjQHpakS1A"></script>
+<script src="{{ asset('Client/js/main.js') }}"></script>
+<!--notify-->
+<script src="{{ asset('Admin/assets/js/notify.js') }}" ></script>
+
+</body>
+
+
+</html>

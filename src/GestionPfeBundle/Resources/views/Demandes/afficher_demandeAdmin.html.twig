@@ -1,0 +1,186 @@
+{% extends "GestionPfeBundle:Default:indexAdmin.html.twig" %}
+{% block title %}
+<title>Les Demandes des Etudiants</title>
+{% endblock title %}
+{% block notification %}
+    <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
+        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+            <i class="fa fa-bell-o"></i>
+            <span class="badge headerBadgeColor1"> {{ popular|length }} </span>
+        </a>
+        <ul class="dropdown-menu">
+            <li class="external">
+                <h3><span class="bold">Notifications</span></h3>
+                <span class="notification-label purple-bgcolor">New {{ popular|length }}</span>
+            </li>
+            <li>
+
+
+
+
+                <ul class="dropdown-menu-list small-slimscroll-style" data-handle-color="#637283">
+                    {% set i=0 %}
+                    {% for key,value in popular %}
+                    <li>
+                        <a href="javascript:;">
+                            <span class="time">a l'instant</span>
+                            <span class="details">
+                                <span class="notification-icon circle btn-youtube"><i class="fa fa-thumbs-up"></i>
+                                </span> L'offre {{ value }} a été le plus recommandé et il est placé en {{ i+1 }} place Ce mois  </span>
+                        </a>
+                        {% set i=i+1 %}
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                <div class="dropdown-menu-footer">
+                    <a href="javascript:void(0)"> Toutes les notifications </a>
+                </div>
+            </li>
+        </ul>
+    </li>
+{% endblock notification %}
+{% block body %}
+    <div class="tabbable-line">
+        <ul class="nav customtab nav-tabs" role="tablist">
+            <li class="nav-item"><a href="#tab1" class="nav-link active"  data-toggle="tab" >Voir Liste</a></li>
+            <li class="nav-item"><a href="#tab2" class="nav-link" data-toggle="tab">Voir en Grille</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active fontawesome-demo" id="tab1">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-box">
+                            <div class="card-head">
+                                <header>Demandes des Etudiants</header>
+                                <div class="tools">
+                                    <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
+                                    <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
+                                    <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
+                                </div>
+                            </div>
+                            <div class="card-body ">
+
+                                <div class="table-scrollable">
+                                    <table class="table table-striped table-bordered table-hover table-checkable order-column valign-middle" id="example4">
+                                        <thead>
+                                        <tr>
+                                            <th>Offre</th>
+                                            <th>Candidat</th>
+                                            <th> Entreprise </th>
+                                            <th> Email Entreprise </th>
+                                            <th> Mobile </th>
+                                            <th> Email </th>
+                                            <th>Date Demande</th>
+                                            <th> Etat Demande </th>
+                                            <th> Date Entretien</th>
+                                            <th> Etat Entretien </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for d in demandes %}
+
+                                                <tr class="gradeX odd" role="row" id="row{{ d.id }}">
+                                                    <td>{{ d.idOffre.titre }}</td>
+                                                    <td class="left">
+                                                        {{ d.idUser.nom }} {{ d.idUser.prenom }}
+                                                    </td>
+                                                    <td class="left">{{ d.idOffre.idUser.nom }}</td>
+
+
+                                                    <td><a href="mailto:{{ d.idOffre.idUser.email }}">
+                                                            {{ d.idOffre.idUser.email }}</a></td>
+
+                                                    <td><a href="tel:(+216){{ d.idUser.numeroTel }}">
+                                                            (+216){{ d.idUser.numeroTel }}  </a></td>
+
+                                                    <td><a href="mailto:{{ d.idUser.email }}">
+                                                            {{ d.idUser.email }}</a></td>
+                                                    <td class="left">{{ d.dateDemande|date('Y/m/d H:i:s') }}</td>
+                                                    {% if d.EtatDemande == null %}
+                                                        <td class="left"><button data-toggle="button" class="btn btn-youtube" aria-pressed="false"><i class="fa fa-thumbs-down "></i>
+                                                            </button></td>
+                                                    {% elseif d.etatDemande==1 %}
+
+                                                        <td class="left"><button data-toggle="button" class="btn btn-facebook" aria-pressed="false"><i class="fa fa-thumbs-up "></i>
+                                                            </button></td>
+
+                                                    {% else %}
+                                                        <td class="left"><button data-toggle="button" class="btn btn-youtube" aria-pressed="false"><i class="fa fa-thumbs-down "></i>
+                                                            </button></td>
+                                                    {% endif %}
+                                                    <td class="left">{{ d.dateDemande|date('Y/m/d H:i:s') }}</td>
+
+                                                    {% if d.etatEntretien is not defined %}
+                                                        <td class="left"><button data-toggle="button" class="btn btn-youtube" aria-pressed="false"><i class="fa fa-thumbs-down "></i>
+                                                            </button></td>
+                                                    {% elseif d.etatEntretien==1 %}
+
+                                                        <td class="left"><button data-toggle="button" class="btn btn-facebook" aria-pressed="false"><i class="fa fa-thumbs-up "></i>
+                                                            </button></td>
+
+                                                    {% else %}
+                                                        <td class="left"><button data-toggle="button" class="btn btn-youtube" aria-pressed="false"><i class="fa fa-thumbs-down "></i>
+                                                            </button></td>
+                                                    {% endif %}
+                                                </tr>
+
+
+
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="tab2">
+                <div class="row">
+                    {% for d in demandes %}
+
+                            <div class="col-md-4" id="rowa{{ d.id }}">
+                                <div class="card card-box">
+                                    <div class="card-body no-padding ">
+                                        <div class="doctor-profile">
+                                            <img src="{{ asset('uploads/user/'~d.idUser.image |e ) }}" class="doctor-pic" alt="">
+                                            <div class="profile-usertitle">
+                                                <div class="doctor-name">{{ d.idUser.nom }} {{ d.idUser.prenom }} </div>
+                                                <div class="name-center"> Entreprise :{{ d.idOffre.idUser.nom }} </div>
+                                                <div class="name-center"> Date Entretien :{{ d.dateEntretien|date('Y/m/d H:i:s') }} </div>
+
+                                            </div>
+                                            <p>Titre Offre : {{ d.idOffre.titre }} <br />date demande:{{ d.dateDemande|date('Y/m/d H:i:s') }} <br>
+                                                {% if d.etatDemande is null %} Etat Demande: non Traité
+                                                {% elseif d.etatDemande==1 %} Etat Demande: Acceptée
+                                                {% else %} Etat Demande : Refusée</p>
+                                            {% endif %}
+                                            <div><p><i class="fa fa-phone"></i><a href="tel:(+216){{ d.idUser.numeroTel }}">  (+216){{ d.idUser.numeroTel }}</a></p> </div>
+
+                                            {% if d.etatEntretien is not defined %}
+                                                <div class="profile-userbuttons">
+                                                    <a  class="btn btn-circle btn-facebook"  >En attente</a>
+                                                </div>
+                                            {% elseif d.etatEntretien==1 %}
+                                                <div class="profile-userbuttons">
+                                                    <a  class="btn btn-circle btn-success" >Accepté</a>
+                                                </div>
+                                            {% else %}
+                                                <div class="profile-userbuttons">
+                                                    <a  class="btn btn-circle btn-youtube"  >Refusée</a>
+                                                </div>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

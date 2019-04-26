@@ -1,0 +1,224 @@
+gestion_pfe_homepage:
+    path:     /
+    defaults: { _controller: GestionPfeBundle:Default:index }
+
+gestion_pfe_admin:
+    path:     /admin
+    defaults: { _controller: GestionPfeBundle:Default:indexAdmin }
+gestion_pfe_entreprisehomepage:
+    path:     /entreprise
+    defaults: { _controller: GestionPfeBundle:Default:indexEntreprise }
+gestion_pfe_enseignanthomepage:
+    path:     /enseignant
+    defaults: { _controller: GestionPfeBundle:Default:indexEnseignant }
+
+_remplir_cv:
+    path:     /RemplirCv
+    defaults: { _controller: GestionPfeBundle:Cv:RemplirCv }
+_afficheform_cv:
+    path:     /afficheformcv
+    defaults: { _controller: GestionPfeBundle:Cv:afficheformcv }
+
+_affiche_cv:
+    path:     /AfficheCv
+    defaults: { _controller: GestionPfeBundle:Cv:AfficheCv }
+
+_modifier_cv:
+    path:     /ModifierCv/{id}
+    defaults: { _controller: GestionPfeBundle:Cv:ModifierCv }
+
+ajout_langue:
+    path:     /ajoutLangue
+    defaults: { _controller: GestionPfeBundle:langues:ajoutLangue }
+
+_modifier_langue:
+    path:     /ModifierLangue
+    defaults: { _controller: GestionPfeBundle:langues:ModifierLangue }
+
+supprimer_langue:
+    path:     /supprimerLangue
+    defaults: { _controller: GestionPfeBundle:langues:supprimerLangue }
+
+ajout_formation:
+    path:     /ajoutFormation
+    defaults: { _controller: GestionPfeBundle:formations:ajoutFormation }
+
+modifier_formation:
+    path:     /modifierFormation
+    defaults: { _controller: GestionPfeBundle:formations:modifierFormation }
+
+supprimer_formation:
+    path:     /supprimerFormation
+    defaults: { _controller: GestionPfeBundle:formations:supprimerFormation }
+
+ajout_centre:
+    path:     /ajoutCentre
+    defaults: { _controller: GestionPfeBundle:centres:ajoutCentre }
+
+modifier_centre:
+    path:     /modifierCentre
+    defaults: { _controller: GestionPfeBundle:centres:modifierCentre }
+
+supprimer_centre:
+    path:     /supprimerCentre
+    defaults: { _controller: GestionPfeBundle:centres:supprimerCentre }
+
+ajout_competence:
+    path:     /ajoutCompetence
+    defaults: { _controller: GestionPfeBundle:competences:ajoutCompetence }
+
+supprimer_competence:
+    path:     /supprimerCompetence
+    defaults: { _controller: GestionPfeBundle:competences:supprimerCompetence }
+
+modifier_competence:
+    path:     /modifierCompetence
+    defaults: { _controller: GestionPfeBundle:competences:modifierCompetence }
+
+_postuler:
+    path:     /Postuler
+    defaults: { _controller: GestionPfeBundle:Demandes:Postuler }
+
+_supprimer_demande:
+    path:     /SupprimerDemande
+    defaults: { _controller: GestionPfeBundle:Demandes:SupprimerDemande }
+
+_afficher_demande:
+    path:     /AfficherDemande
+    defaults: { _controller: GestionPfeBundle:Demandes:afficherDemande }
+rechercheajax:
+    path:     /rechercheajax
+    defaults: { _controller: GestionPfeBundle:Demandes:rechercheajax }
+listeAccepte:
+    path:     /listeaccepte
+    defaults: { _controller: GestionPfeBundle:Demandes:listAccepte }
+ValiderEntretien:
+    path:     /ValiderEntretien
+    defaults: { _controller: GestionPfeBundle:Demandes:ValiderEntretien }
+SupprimerEntretien:
+    path:     /SupprimerEntretien
+    defaults: { _controller: GestionPfeBundle:Demandes:SupprimerEntretien }
+FixerEntretien:
+    path:     /FixerEntretien
+    defaults: { _controller: GestionPfeBundle:Demandes:FixerEntretien }
+pdfAction:
+    path:     /pdf
+    defaults: { _controller: GestionPfeBundle:Demandes:pdf }
+ajouter_un_offre:
+    path:     /ajouteroffre
+    defaults: { _controller: GestionPfeBundle:Offre:ajouterOffreEntreprise }
+ajouter_avec_ajax:
+    path:     /ajouteroffreA
+    defaults: { _controller: GestionPfeBundle:Offre:ajouterOffreEntrepriseAjax }
+afficher_offre_entreprise:
+    path:     /mesOffres
+    defaults: { _controller: GestionPfeBundle:Offre:afficherOffreEntreprise }
+edit_offre_entreprise:
+    path:     /editOffre
+    defaults: { _controller: GestionPfeBundle:Offre:editOffre }
+delete_tech:
+    path:     /deletetech
+    defaults: { _controller: GestionPfeBundle:Technologies:deleteTech }
+afficher_offre_admin:
+    path:     /toutLesOffresAdmin
+    defaults: { _controller: GestionPfeBundle:Offre:approuverOffres }
+gestion_pfe_user:
+    path:     /user
+    defaults: { _controller: GestionPfeBundle:Default:indexUser }
+_afficher_demandeAdmin:
+    path:     /AfficherDemandeAdmin
+    defaults: { _controller: GestionPfeBundle:Demandes:afficherDemandeAdmin }
+_afficher_demandeEtudiant:
+    path:     /AfficherDemandeEtudiant
+    defaults: { _controller: GestionPfeBundle:Demandes:afficherDemandeEtudiant }
+_afficher_stages:
+    path:     /AfficheStage
+    defaults: { _controller: GestionPfeBundle:Stage:AfficheStage }
+
+_afficher_listencadrant:
+    path:     /AfficheEncadrant
+    defaults: { _controller: GestionPfeBundle:Stage:AfficheEncadrant }
+
+affecterencadrant_avec_ajax:
+    path:     /AfficheEncadrantA
+    defaults: { _controller: GestionPfeBundle:Stage:AffecterEncadrant }
+
+
+desaffecterencadrant_avec_ajax:
+    path:     /AnnulerEncadrant
+    defaults: { _controller: GestionPfeBundle:Stage:AnnulerEncadrant }
+AfficheMesStages:
+    path:     /AfficheMesStages
+    defaults: { _controller: GestionPfeBundle:Stage:AfficheMesStages }
+AfficheDemandesAccept:
+    path:     /AfficheDemandesAccept
+    defaults: { _controller: GestionPfeBundle:Demandes:AfficheDemandesAccept }
+confirmer_demande:
+    path:     /confirmer_demande/{id}
+    defaults: { _controller: GestionPfeBundle:Stage:confirmerDemande }
+_afficher_mes_etudiants:
+    path:     /AfficheMesEtudiants
+    defaults: { _controller: GestionPfeBundle:Encadrement:AfficheMesEtudiants }
+details_encadrement:
+    path:     /DetailsEncadrement
+    defaults: { _controller: GestionPfeBundle:Encadrement:DetailsEncadrement }
+
+ValiderTache:
+    path:     /ValiderTache
+    defaults: { _controller: GestionPfeBundle:Encadrement:ValiderTache }
+AjoutTache:
+    path:     /AjoutTache
+    defaults: { _controller: GestionPfeBundle:Encadrement:Ajouttache }
+DevaliderTache:
+    path:     /InvaliderTache
+    defaults: { _controller: GestionPfeBundle:Encadrement:InvaliderTache }
+
+piechart:
+    path:     /piechart
+    defaults: { _controller: GestionPfeBundle:Encadrement:index }
+
+Ajoutdate:
+    path:     /Ajoutdate
+    defaults: { _controller: GestionPfeBundle:Encadrement:AjoutDateReunion }
+
+download_excel:
+    path:     /download_excel
+    defaults: { _controller: GestionPfeBundle:Encadrement:DownloadExcel }
+
+_ajouter_demande_soutenance:
+    path:     /AjouterDemandeSoutenance
+    defaults: { _controller: GestionPfeBundle:Soutenance:AjouterDemandeSoutenance }
+
+_afficher_demande_soutenance:
+    path:     /AfficherDemandeSoutenance
+    defaults: { _controller: GestionPfeBundle:Soutenance:AfficherDemandeSoutenance }
+
+_ajouter_soutenance:
+    path:     /AjouterSoutenance
+    defaults: { _controller: GestionPfeBundle:Soutenance:AjouterSoutenance }
+
+_afficher_soutenance:
+    path:     /AfficherSoutenance
+    defaults: { _controller: GestionPfeBundle:Soutenance:AfficherSoutenance }
+
+_modifer_soutenance:
+    path:     /ModiferSoutenance
+    defaults: { _controller: GestionPfeBundle:Soutenance:ModiferSoutenance }
+
+_affecter_jury:
+    path:     /AffecterJury
+    defaults: { _controller: GestionPfeBundle:Soutenance:AffecterJury }
+
+_modifer_jury:
+    path:     /ModiferJury
+    defaults: { _controller: GestionPfeBundle:Soutenance:ModiferJury }
+
+_archiver_soutenance:
+    path:     /ArchiverSoutenance
+    defaults: { _controller: GestionPfeBundle:Soutenance:ArchiverSoutenance }
+
+
+_afficher_soutenances_affectes:
+    path:     /AfficherSoutenancesAffectes
+    defaults: { _controller: GestionPfeBundle:Affectation:AfficherSoutenancesAffectes }
+
